@@ -29,11 +29,17 @@ describe "As a visitor" do
       end
 
       it "As a merchant user, I am redirected to my merchant dashboard page" do
-        kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+        sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
         visit '/login'
 
+        fill_in :email, with: sally.email
+        fill_in :password, with: sally.password
 
+        click_button 'Login'
+
+        expect(current_path).to eq('/merchant')
+        expect(page).to have_content("Welcome #{sally.name}!!")
       end
 
       it "As a admin user, I am redirected to my admin dashboard page" do
