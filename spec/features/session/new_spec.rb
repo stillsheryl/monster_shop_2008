@@ -29,7 +29,11 @@ describe "As a visitor" do
       end
 
       it "As a merchant user, I am redirected to my merchant dashboard page" do
+        kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+
         visit '/login'
+
+
       end
 
       it "As a admin user, I am redirected to my admin dashboard page" do
