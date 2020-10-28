@@ -1,5 +1,5 @@
 <%= content_tag :h1, "User Registration" %>
-
+<% binding.pry %>
 <%= form_tag "/register", method: :post do %>
   <%= label_tag(:name, "Name") %>
   <%= text_field_tag(:name) %>

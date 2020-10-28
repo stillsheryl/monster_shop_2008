@@ -35,5 +35,31 @@ describe "as a visitor" do
       expect(page).to have_content("Name can't be blank")
       expect(current_path).to eq('/register')
     end
+    it "it will show an error message if the email already exists" do
+      User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit '/register'
+
+      fill_in :name, with: "Bob Marley"
+      fill_in :address, with: "123 Main St."
+      fill_in :city, with: "Denver"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: "80205"
+      fill_in :email, with: "bob@marley.com"
+      fill_in :password, with: "password"
+      fill_in :confirmation, with: "password"
+
+      click_button "Register"
+
+      expect(page).to have_content("Email has already been taken")
+      expect(find_field(:name).value).to eq("Bob Marley")
+      expect(find_field(:address).value).to eq("123 Main St.")
+      expect(find_field(:city).value).to eq("Denver")
+      expect(find_field(:state).value).to eq("CO")
+      expect(find_field(:zip).value).to eq("80205")
+      expect(find_field(:email).value).to eq(nil)
+      expect(find_field(:password).value).to eq(nil)
+      expect(find_field(:confirmation).value).to eq(nil)
+    end
   end
 end
