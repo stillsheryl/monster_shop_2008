@@ -41,10 +41,25 @@ describe "As a visitor" do
         fill_in :password, with: bob.password
 
         click_button 'Login'
-save_and_open_page
+
         expect(current_path).to eq('/admin')
         expect(page).to have_content("Welcome #{bob.name}!")
         expect(page).to have_content("You are now logged in.")
+      end
+    end
+    describe "When I submit invalid login info" do
+      it "redirects me to the log in page and I see a flash message" do
+        kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+        visit '/login'
+
+        fill_in :email, with: "b0b@marley.com"
+        fill_in :password, with: kiera.password
+
+        click_button 'Login'
+
+        expect(current_path).to eq('/login')
+        expect(page).to have_content('Incorrect credentials, please try again.')
       end
     end
   end
