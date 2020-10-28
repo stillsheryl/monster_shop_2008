@@ -1,0 +1,40 @@
+<%= content_tag :h1, "User Registration" %>
+
+<%= form_tag "/register", method: :post do %>
+  <% if flash[:errors] == "Email has already been taken" %>
+    <%= label_tag(:name, "Name") %>
+    <%= text_field_tag(:name, value = @params[:name]) %>
+    <%= label_tag(:address, "Address") %>
+    <%= text_field_tag(:address, value = @params[:address]) %>
+    <%= label_tag(:city, "City") %>
+    <%= text_field_tag(:city, value = @params[:city]) %>
+    <%= label_tag(:state, "State") %>
+    <%= text_field_tag(:state, value = @params[:state]) %>
+    <%= label_tag(:zip, "Zip") %>
+    <%= text_field_tag(:zip, value = @params[:zip]) %>
+    <%= label_tag(:email, "Email") %>
+    <%= text_field_tag(:email) %>
+    <%= label_tag(:password, "Password") %>
+    <%= password_field_tag(:password) %>
+    <%= label_tag(:confirmation, "Confirm Password") %>
+    <%= password_field_tag(:confirmation) %>
+  <% else %>
+    <%= label_tag(:name, "Name") %>
+    <%= text_field_tag(:name) %>
+    <%= label_tag(:address, "Address") %>
+    <%= text_field_tag(:address) %>
+    <%= label_tag(:city, "City") %>
+    <%= text_field_tag(:city) %>
+    <%= label_tag(:state, "State") %>
+    <%= text_field_tag(:state) %>
+    <%= label_tag(:zip, "Zip") %>
+    <%= text_field_tag(:zip) %>
+    <%= label_tag(:email, "Email") %>
+    <%= text_field_tag(:email) %>
+    <%= label_tag(:password, "Password") %>
+    <%= password_field_tag(:password) %>
+    <%= label_tag(:confirmation, "Confirm Password") %>
+    <%= password_field_tag(:confirmation) %>
+  <% end %>
+  <%= submit_tag "Register" %>
+<% end %>
