@@ -15,10 +15,10 @@ class SessionsController < ApplicationController
       elsif @user.admin?
         redirect_to '/admin'
       else
-        flash[:errors] = "Invalid Password."
         redirect_to '/login'
       end
     else
+      flash[:errors] = 'Incorrect credentials, please try again.'
       redirect_to '/login'
     end
   end
