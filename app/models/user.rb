@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true
   validates :password, confirmation: true, presence: true
 
+  enum role: %w(user admin merchant)
 end

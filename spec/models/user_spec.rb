@@ -17,24 +17,24 @@ RSpec.describe User do
 
   describe "roles" do
     it "can be created as a default user" do
-      User.create!(email: 'kiera@gmail.com', password: 'password', role: 0)
+      user = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
 
       expect(user.role).to eq("user")
       expect(user.user?).to be_truthy
     end
 
-    it "can be created as a default user" do
-      User.create!(email: 'kiera@gmail.com', password: 'password', role: 1)
+    it "can be created as a admin" do
+      admin = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
 
-      expect(user.role).to eq("admin")
-      expect(user.admin?).to be_truthy
+      expect(admin.role).to eq("admin")
+      expect(admin.admin?).to be_truthy
     end
 
-    it "can be created as a default user" do
-      User.create!(email: 'kiera@gmail.com', password: 'password', role: 2)
+    it "can be created as a merchant" do
+      merchant = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 2)
 
-      expect(user.role).to eq("merchant")
-      expect(user.merchant?).to be_truthy
+      expect(merchant.role).to eq("merchant")
+      expect(merchant.merchant?).to be_truthy
     end
   end
 end
