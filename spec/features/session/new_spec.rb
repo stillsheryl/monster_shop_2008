@@ -43,7 +43,17 @@ describe "As a visitor" do
       end
 
       it "As a admin user, I am redirected to my admin dashboard page" do
+        bob = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
+
         visit '/login'
+
+        fill_in :email, with: bob.email
+        fill_in :password, with: bob.password
+
+        click_button 'Login'
+
+        expect(current_path).to eq('/merchant')
+        expect(page).to have_content("Welcome #{bob.name}!")
       end
     end
   end
