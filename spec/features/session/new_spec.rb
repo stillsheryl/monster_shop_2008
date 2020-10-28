@@ -52,7 +52,7 @@ describe "As a visitor" do
 
         click_button 'Login'
 
-        expect(current_path).to eq('/merchant')
+        expect(current_path).to eq('/admin')
         expect(page).to have_content("Welcome #{bob.name}!")
       end
     end
