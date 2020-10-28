@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get "/login", to: "sessions#new"
 
+  post '/login', to: "sessions#create"
+
   get "/merchants", to: "merchants#index"
   get "/merchants/new", to: "merchants#new"
   get "/merchants/:id", to: "merchants#show"

@@ -25,7 +25,7 @@ describe "As a visitor" do
         click_button 'Login'
 
         expect(current_path).to eq('/profile')
-        expect(page).to have_content("Welcome #{kiera.name}")
+        expect(page).to have_content("Welcome #{kiera.name}!!!")
       end
 
       it "As a merchant user, I am redirected to my merchant dashboard page" do
