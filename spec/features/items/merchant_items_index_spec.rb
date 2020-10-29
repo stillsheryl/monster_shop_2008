@@ -9,7 +9,7 @@ RSpec.describe "Merchant Items Index Page" do
       @shifter = @meg.items.create(name: "Shimano Shifters", description: "It'll always shift!", active?: false, price: 180, image: "https://images-na.ssl-images-amazon.com/images/I/4142WWbN64L._SX466_.jpg", inventory: 2)
     end
 
-    it 'shows me a list of that merchants items' do
+    it 'shows me a list of that merchants active items and does not display inactive items' do
       visit "merchants/#{@meg.id}/items"
 
       within "#item-#{@tire.id}" do
@@ -31,12 +31,12 @@ RSpec.describe "Merchant Items Index Page" do
       end
 
       within "#item-#{@shifter.id}" do
-        expect(page).to have_content(@shifter.name)
-        expect(page).to have_content("Price: $#{@shifter.price}")
-        expect(page).to have_css("img[src*='#{@shifter.image}']")
-        expect(page).to have_content("Inactive")
+        expect(page).to_not have_content(@shifter.name)
+        expect(page).to_not have_content("Price: $#{@shifter.price}")
+        expect(page).to_not have_css("img[src*='#{@shifter.image}']")
+        expect(page).to_not have_content("Inactive")
         expect(page).to_not have_content(@shifter.description)
-        expect(page).to have_content("Inventory: #{@shifter.inventory}")
+        expect(page).to_not have_content("Inventory: #{@shifter.inventory}")
       end
     end
   end
