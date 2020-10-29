@@ -121,11 +121,3 @@ describe "As a visitor" do
     end
   end
 end
-# User Story 15, Users who are logged in already are redirected
-#
-# As a registered user, merchant, or admin
-# When I visit the login path
-# If I am a regular user, I am redirected to my profile page
-# If I am a merchant user, I am redirected to my merchant dashboard page
-# If I am an admin user, I am redirected to my admin dashboard page
-# And I see a flash message that tells me I am already logged in
