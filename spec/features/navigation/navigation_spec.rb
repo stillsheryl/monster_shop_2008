@@ -88,9 +88,27 @@ RSpec.describe 'Site Navigation' do
       fill_in :password, with: kiera.password
 
       click_button 'Login'
-      save_and_open_page
+
       within 'nav' do
         expect(page).to have_link("Merchant's Dashboard")
+      end
+    end
+  end
+
+  describe 'As a Admin' do
+    it "shows same links as users plus dashboard link and all users" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 2)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      within 'nav' do
+        expect(page).to have_link("Admin's Dashboard")
+        expect(page).to have_link("All Users")
       end
     end
   end
