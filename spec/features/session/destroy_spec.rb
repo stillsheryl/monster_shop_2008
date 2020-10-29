@@ -20,7 +20,7 @@ describe "As a registered user, merchant, or admin" do
 
       click_button 'Login'
 
-      visit '/logout'
+      page.driver.submit :delete, '/logout', {}
 
       expect(current_path).to eq('/home')
       expect(page).to have_content('You are now logged out.')
