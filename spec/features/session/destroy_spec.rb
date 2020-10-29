@@ -1,7 +1,4 @@
 require 'rails_helper'
-#
-# User Story 16, User can log out
-# Any items I had in my shopping cart are deleted
 
 describe "As a registered user, merchant, or admin" do
   describe "When I click the logout button" do
@@ -37,8 +34,6 @@ describe "As a registered user, merchant, or admin" do
       click_on "Add To Cart"
 
       page.driver.submit :delete, '/logout', {}
-
-      save_and_open_page
 
       within 'nav' do
         expect(page).to have_content("Cart: 0")

@@ -1,16 +1,3 @@
-# User Story 3, User Navigation
-#
-# As a default user
-# I see the same links as a visitor
-# Plus the following links
-# - a link to my profile page ("/profile")
-# - a link to log out ("/logout")
-#
-# Minus the following links
-# - I do not see a link to log in or register
-#
-# I also see text that says "Logged in as Mike Dao" (or whatever my name is)
-
 require 'rails_helper'
 
 RSpec.describe 'Site Navigation' do
@@ -71,8 +58,23 @@ RSpec.describe 'Site Navigation' do
     end
   end
   describe 'As a User' do
-    it "shows all links plus profile page link and logout link" do
+    it "shows same links as visitor plus profile page link and logout link" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
 
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      within 'nav' do
+        expect(page).to have_link("#{kiera.name}'s Profile")
+        expect(page).to have_link("Logout")
+        expect(page).to_not have_link("User Log In")
+        expect(page).to_not have_link("Register New User")
+        expect(page).to have_content("Logged in as #{kiera.name}")
+      end
     end
 
   end
