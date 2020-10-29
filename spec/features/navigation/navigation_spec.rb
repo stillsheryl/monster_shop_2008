@@ -67,7 +67,7 @@ RSpec.describe 'Site Navigation' do
       fill_in :password, with: kiera.password
 
       click_button 'Login'
-save_and_open_page
+
       within 'nav' do
         expect(page).to have_link("#{kiera.name}'s Profile")
         expect(page).to have_link("Logout")
@@ -78,26 +78,20 @@ save_and_open_page
     end
   end
 
-  # describe 'As a Merchant' do
-  #   it "shows same links as users plus dashboard link" do
-  #     kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
-  #
-  #     visit '/login'
-  #
-  #     fill_in :email, with: kiera.email
-  #     fill_in :password, with: kiera.password
-  #
-  #     click_button 'Login'
-  #
-  #     within 'nav' do
-  #       expect(page).to have_link("Merchant's Dashboard")
-  #     end
-  #   end
-  # end
+  describe 'As a Merchant' do
+    it "shows same links as users plus dashboard link" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+      save_and_open_page
+      within 'nav' do
+        expect(page).to have_link("Merchant's Dashboard")
+      end
+    end
+  end
 end
-# User Story 4, Merchant Navigation
-#
-# As a merchant employee
-# I see the same links as a regular user
-# Plus the following links:
-# - a link to my merchant dashboard ("/merchant")
