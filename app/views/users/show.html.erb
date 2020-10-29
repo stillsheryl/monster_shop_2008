@@ -1,1 +1,12 @@
 <%= content_tag :h1, "Welcome #{@user.name}!!!" %>
+
+<body class="profile-body">
+  <%= content_tag :h3, "Address:" %>
+  <%= content_tag :p, "#{@user.address}"%>
+  <%= content_tag :p, "#{@user.city}, #{@user.state}" %>
+  <%= content_tag :p, "#{@user.zip}" %>
+  <%= content_tag :h3, "Email:" %>
+  <%= content_tag :h3, "#{@user.email}" %>
+
+  <%= link_to "Edit Profile", "/profile/#{@user.id}/edit"%>
+</body>
