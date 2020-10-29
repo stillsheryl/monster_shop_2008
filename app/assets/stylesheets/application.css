@@ -156,3 +156,9 @@ td, th {
 tr:nth-child(even) {
   background-color: #F0F8FF;
 }
+
+.topnav p {
+  color: white;
+  float: right;
+  padding-right: 14px;
+}
