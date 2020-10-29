@@ -148,12 +148,12 @@ RSpec.describe 'Site Navigation' do
 
   describe 'As a merchant' do
     it "When I try to access any path that begins with the following, then I see a 404 error:" do
-      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+      sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
       visit '/login'
 
-      fill_in :email, with: kiera.email
-      fill_in :password, with: kiera.password
+      fill_in :email, with: sally.email
+      fill_in :password, with: sally.password
 
       click_button 'Login'
 
@@ -164,12 +164,12 @@ RSpec.describe 'Site Navigation' do
 
   describe 'As a admin' do
     it "When I try to access any path that begins with the following, then I see a 404 error:" do
-      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 2)
+      bob = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
 
       visit '/login'
 
-      fill_in :email, with: kiera.email
-      fill_in :password, with: kiera.password
+      fill_in :email, with: bob.email
+      fill_in :password, with: bob.password
 
       click_button 'Login'
 
