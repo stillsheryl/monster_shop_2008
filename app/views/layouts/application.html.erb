@@ -14,7 +14,8 @@
       <%= link_to "All Merchants", "/merchants" %>
       <%= link_to "All Items", "/items" %>
       <%= link_to "Cart: #{cart.total_items}", "/cart" %>
-      <% if current_user %>
+
+      <%= if current_user.role %>
         <%= link_to "#{current_user.name}'s Profile", "/profile" %>
         <%= link_to "Logout", "/logout", method: :delete %>
         <%= content_tag :p, "Logged in as #{current_user.name}" %>
