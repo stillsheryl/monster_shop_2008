@@ -131,6 +131,13 @@ RSpec.describe 'Site Navigation' do
     it "When I try to access any path that begins with the following, then I see a 404 error:" do
       kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
 
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
       visit "/merchant"
       expect(page).to have_content("The page you were looking for doesn't exist.")
 
@@ -138,11 +145,38 @@ RSpec.describe 'Site Navigation' do
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end
+
   describe 'As a merchant' do
     it "When I try to access any path that begins with the following, then I see a 404 error:" do
-      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
 
       visit "/admin"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
+  end
+
+  describe 'As a admin' do
+    it "When I try to access any path that begins with the following, then I see a 404 error:" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 2)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit "/merchant"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+
+      visit "/cart"
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end
