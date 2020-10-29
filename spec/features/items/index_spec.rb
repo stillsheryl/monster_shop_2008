@@ -50,7 +50,18 @@ RSpec.describe "Items Index Page" do
       expect(page).to_not have_content("Price: $#{@dog_bone.price}")
       expect(page).to_not have_content("Inactive")
       expect(page).to_not have_content("Inventory: #{@dog_bone.inventory}")
+    end
 
+    it "The item image is a link to that item's show page" do
+      visit '/items'
+
+      find("#link-#{@tire.id}").click
+      expect(current_path).to eq("/items/#{@tire.id}")
+
+      visit '/items'
+
+      find("#link-#{@pull_toy.id}").click
+      expect(current_path).to eq("/items/#{@pull_toy.id}")
     end
   end
 end
