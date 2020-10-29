@@ -32,8 +32,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.delete(session[:user_id])
-    @user = nil
+    session.destroy
     flash[:message] = 'You are now logged out.'
     redirect_to '/home'
   end
