@@ -126,4 +126,17 @@ RSpec.describe 'Site Navigation' do
       expect(page).to have_content("The page you were looking for doesn't exist.")
     end
   end
+
+  describe 'As a user' do
+    it "When I try to access any path that begins with the following, then I see a 404 error:" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit "/merchant"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+
+      visit "/admin"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+
+    end
+  end
 end
