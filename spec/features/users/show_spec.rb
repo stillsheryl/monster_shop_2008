@@ -37,5 +37,20 @@ describe "As a registered user" do
 
       expect(page).to have_link("Edit Profile")
     end
+
+    it "shows a link on my profile page called 'My Orders' if I have orders placed in the system." do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      expect(page).to have_link("My Orders")
+    end
   end
 end
