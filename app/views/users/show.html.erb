@@ -1,5 +1,7 @@
 <%= content_tag :h1, "Welcome #{@user.name}!!!" %>
 
+<ul> <%= link_to "My Orders", "/profile/orders" %> </ul>
+
 <body class="profile-body">
   <%= content_tag :h3, "Address:" %>
   <%= content_tag :p, "#{@user.address}"%>
