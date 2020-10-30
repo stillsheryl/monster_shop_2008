@@ -12,5 +12,7 @@
   <%= text_field_tag(:zip, value = current_user.zip) %>
   <%= label_tag(:email, "Email") %>
   <%= text_field_tag(:email, value = current_user.email) %>
+  <%= label_tag :password, "Please enter password to confirm changes" %>
+  <%= password_field_tag :password %>
   <%= submit_tag 'Submit' %>
 <% end %>
