@@ -27,22 +27,62 @@ describe "As a registered User" do
       expect(find_field(:state).value).to eq(@kiera.state)
       expect(find_field(:zip).value).to eq("#{@kiera.zip}")
       expect(find_field(:email).value).to eq(@kiera.email)
+      expect(find_field(:password).value).to eq(@kiera.password)
       expect(page).to have_button("Submit")
     end
-    # it "text" do
-    #
-    # end
+    describe "When I change any or all of that information and I submit the form" do
+      it "Then I am returned to my profile page, and I see a flash message telling me that my data is updated, and I see my updated information" do
+        # click_link "Edit Profile"
+        visit '/profile/edit'
+
+        fill_in :name, with: "Jose Lopez"
+        fill_in :address, with: "125 Candy Cane Ln."
+        fill_in :city, with: "Miami"
+        fill_in :state, with: "FL"
+        fill_in :zip, with: 54321
+        fill_in :email, with: "bob@marley.com"
+        fill_in :password, with: @kiera.password
+
+        click_button 'Submit'
+
+        expect(current_path).to eq('/profile')
+        expect(page).to have_content('Profile information updated.')
+
+        # Add tests for updated info on profile
+        # expect(page).to have_content()
+
+        # click_link "Edit Profile"
+        visit '/profile/edit'
+
+        fill_in :name, with: ""
+        fill_in :address, with: "125 Candy Cane Ln."
+        fill_in :city, with: "Miami"
+        fill_in :state, with: "FL"
+        fill_in :zip, with: 54321
+        fill_in :email, with: "bob@marley.com"
+        fill_in :password, with: @kiera.password
+
+        click_button 'Submit'
+
+        expect(current_path).to eq('/profile/edit')
+        expect(page).to have_content('No fields can be blank.')
+
+        # click_link "Edit Profile"
+        visit '/profile/edit'
+
+        fill_in :name, with: "Jose Lopez"
+        fill_in :address, with: "125 Candy Cane Ln."
+        fill_in :city, with: "Tampa"
+        fill_in :state, with: "FL"
+        fill_in :zip, with: 54321
+        fill_in :email, with: "bob@marley.com"
+        fill_in :password, with: 'fake_password'
+
+        click_button 'Submit'
+
+        expect(current_path).to eq('/profile/edit')
+        expect(page).to have_content('Incorrect password.')
+      end
+    end
   end
 end
-# [ ] done
-#
-# User Story 20, User Can Edit their Profile Data
-#
-# As a registered user
-# When I visit my profile page
-# When I change any or all of that information
-# And I submit the form
-# Then I am returned to my profile page
-# And I see a flash message telling me that my data is updated
-# And I see my updated information
-#
