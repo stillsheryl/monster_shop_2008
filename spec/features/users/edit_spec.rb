@@ -12,23 +12,21 @@ describe "As a registered User" do
 
       click_button 'Login'
     end
-    it "I see a link to edit my data, which takes me to a profile edit form" do
+    it "I see a link to edit my data, which takes me to a profile edit form, which is prepopulated with my current info, except my password" do
       click_link "Edit Profile"
-      # Definitely refactor after user profile is pulled down
-      expect(page).to have_css('#edit-profile-form')
-    end
-    it "the form is prepopulated with users current info except my password" do
-      # click_link "Edit Profile"
-      visit '/profile/edit'
 
-      expect(find_field(:name).value).to eq(@kiera.name)
-      expect(find_field(:address).value).to eq(@kiera.address)
-      expect(find_field(:city).value).to eq(@kiera.city)
-      expect(find_field(:state).value).to eq(@kiera.state)
-      expect(find_field(:zip).value).to eq("#{@kiera.zip}")
-      expect(find_field(:email).value).to eq(@kiera.email)
-      expect(find_field(:password).value).to eq(@kiera.password)
-      expect(page).to have_button("Submit")
+      expect(current_path).to eq('/profile/edit')
+
+      within '#edit-profile-form' do
+        expect(find_field(:name).value).to eq(@kiera.name)
+        expect(find_field(:address).value).to eq(@kiera.address)
+        expect(find_field(:city).value).to eq(@kiera.city)
+        expect(find_field(:state).value).to eq(@kiera.state)
+        expect(find_field(:zip).value).to eq("#{@kiera.zip}")
+        expect(find_field(:email).value).to eq(@kiera.email)
+        expect(find_field(:password).value).to eq(@kiera.password)
+        expect(page).to have_button("Submit")
+      end
     end
     describe "When I change any or all of that information and I submit the form" do
       it "Then I am returned to my profile page, and I see a flash message telling me that my data is updated, and I see my updated information" do
