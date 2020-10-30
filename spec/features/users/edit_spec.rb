@@ -18,21 +18,18 @@ describe "As a registered User" do
 
       expect(current_path).to eq('/profile/edit')
 
-      within '#edit-profile-form' do
-        expect(find_field(:name).value).to eq(@kiera.name)
-        expect(find_field(:address).value).to eq(@kiera.address)
-        expect(find_field(:city).value).to eq(@kiera.city)
-        expect(find_field(:state).value).to eq(@kiera.state)
-        expect(find_field(:zip).value).to eq("#{@kiera.zip}")
-        expect(find_field(:email).value).to eq(@kiera.email)
-        expect(find_field(:password).value).to eq(@kiera.password)
-        expect(page).to have_button("Submit")
-      end
+      expect(find_field(:name).value).to eq(@kiera.name)
+      expect(find_field(:address).value).to eq(@kiera.address)
+      expect(find_field(:city).value).to eq(@kiera.city)
+      expect(find_field(:state).value).to eq(@kiera.state)
+      expect(find_field(:zip).value).to eq("#{@kiera.zip}")
+      expect(find_field(:email).value).to eq(@kiera.email)
+      expect(page).to have_field(:password)
+      expect(page).to have_button("Submit")
     end
     describe "When I change any or all of that information and I submit the form" do
       it "Then I am returned to my profile page, and I see a flash message telling me that my data is updated, and I see my updated information" do
-        # click_link "Edit Profile"
-        visit '/profile/edit'
+        click_link "Edit Profile"
 
         fill_in :name, with: @jose[:name]
         fill_in :address, with: @jose[:address]
@@ -55,7 +52,6 @@ describe "As a registered User" do
         expect(page).to have_content(@jose[:email])
 
         click_link "Edit Profile"
-        visit '/profile/edit'
 
         fill_in :name, with: ""
         fill_in :address, with: "125 Candy Cane Ln."
@@ -70,8 +66,8 @@ describe "As a registered User" do
         expect(current_path).to eq('/profile/edit')
         expect(page).to have_content('No fields can be blank.')
 
-        # click_link "Edit Profile"
-        visit '/profile/edit'
+        visit '/profile'
+        click_link "Edit Profile"
 
         fill_in :name, with: "Jose Lopez"
         fill_in :address, with: "125 Candy Cane Ln."
