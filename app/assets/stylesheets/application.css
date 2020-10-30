@@ -162,3 +162,8 @@ tr:nth-child(even) {
   float: right;
   padding-right: 14px;
 }
+
+.profile-body {
+  text-align: center;
+  font-size: 25px;
+}
