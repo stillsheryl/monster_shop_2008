@@ -1,0 +1,41 @@
+require "rails_helper"
+
+describe "As a registered user" do
+  describe "When I visit my profile page" do
+    it "Then I see all of my profile data on the page except my password" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      expect(page).to have_content(kiera.name)
+      expect(page).to have_content(kiera.address)
+      expect(page).to have_content(kiera.city)
+      expect(page).to have_content(kiera.state)
+      expect(page).to have_content(kiera.zip)
+      expect(page).to have_content(kiera.email)
+
+    end
+
+    it "And I see a link to edit my profile data" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      expect(page).to have_link("Edit Profile")
+    end
+  end
+end
