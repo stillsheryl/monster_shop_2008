@@ -1,0 +1,16 @@
+<%= content_tag :h1, "Edit Profile" %>
+<%= form_tag '/profile/edit', method: :patch do %>
+  <%= label_tag(:name, "Name") %>
+  <%= text_field_tag(:name, value = current_user.name) %>
+  <%= label_tag(:address, "Address") %>
+  <%= text_field_tag(:address, value = current_user.address) %>
+  <%= label_tag(:city, "City") %>
+  <%= text_field_tag(:city, value = current_user.city) %>
+  <%= label_tag(:state, "State") %>
+  <%= text_field_tag(:state, value = current_user.state) %>
+  <%= label_tag(:zip, "Zip") %>
+  <%= text_field_tag(:zip, value = current_user.zip) %>
+  <%= label_tag(:email, "Email") %>
+  <%= text_field_tag(:email, value = current_user.email) %>
+  <%= submit_tag 'Submit' %>
+<% end %>

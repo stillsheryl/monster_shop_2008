@@ -5,6 +5,8 @@ describe "As a registered User" do
     before(:each) do
       @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
 
+      visit '/login'
+
       fill_in :email, with: @kiera.email
       fill_in :password, with: @kiera.password
 
@@ -23,8 +25,9 @@ describe "As a registered User" do
       expect(find_field(:address).value).to eq(@kiera.address)
       expect(find_field(:city).value).to eq(@kiera.city)
       expect(find_field(:state).value).to eq(@kiera.state)
-      expect(find_field(:zip).value).to eq(@kiera.zip)
+      expect(find_field(:zip).value).to eq("#{@kiera.zip}")
       expect(find_field(:email).value).to eq(@kiera.email)
+      expect(page).to have_button("Submit")
     end
     # it "text" do
     #
