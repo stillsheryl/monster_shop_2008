@@ -12,6 +12,9 @@ class Cart
 
   def remove_item(item_id)
     @contents[item_id] -= 1
+    if @contents[item_id] == 0
+      @contents.delete(item_id)
+    end
   end
 
   def total_items

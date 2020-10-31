@@ -66,15 +66,16 @@ RSpec.describe 'Increase cart quantity of cart items' do
 
         expect(page).to have_content("Cart: 2")
       end
+
+      it "will remove item if quantity gets to 0" do
+        visit '/cart'
+
+          within "#cart-item-#{@paper.id}" do
+            click_button "-"
+          end
+
+        expect(page).to_not have_content(@paper.name)
+      end
     end
   end
 end
-
-# User Story 24, Decreasing Item Quantity from Cart
-#
-# As a visitor
-# When I have items in my cart
-# And I visit my cart
-# Next to each item in my cart
-# I see a button or link to decrement the count of items I want to purchase
-# If I decrement the count to 0 the item is immediately removed from my cart
