@@ -42,8 +42,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_password
+
+  end
+
+  def update_password
+    current_user.update(user_params)
+    flash[:success] = "Your password has been updated."
+    redirect_to '/profile'
+  end
+
   private
   def user_params
-    params.permit(:name, :address, :city, :state, :zip, :email, :password)
+    params.permit(:name, :address, :city, :state, :zip, :email, :password, :password_confirmation)
   end
 end
