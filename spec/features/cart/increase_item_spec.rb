@@ -33,18 +33,18 @@ RSpec.describe 'Increase cart quantity of cart items' do
       end
 
       it "has a button next to each item to increase the count of items" do
-          visit '/cart'
+        visit '/cart'
 
-          @items_in_cart.each do |item|
-            within "#cart-item-#{item.id}" do
-              expect(page).to have_button("+")
-            end
+        @items_in_cart.each do |item|
+          within "#cart-item-#{item.id}" do
+            expect(page).to have_button("+")
           end
+        end
 
-            within "#cart-item-#{@paper.id}" do
-              click_button "+"
-            end
-          expect(page).to have_content("2")
+          within "#cart-item-#{@paper.id}" do
+            click_button "+"
+          end
+        expect(page).to have_content("2")
       end
     end
   end

@@ -24,4 +24,10 @@ class CartController < ApplicationController
     session[:cart].delete(params[:item_id])
     redirect_to '/cart'
   end
+
+  def update
+    item = Item.find(params[:item_id])
+      cart.add_item(item.id)
+    redirect_to '/cart'
+  end
 end
