@@ -13,6 +13,8 @@ RSpec.describe User do
     it { should validate_uniqueness_of :email }
 
     it { should validate_confirmation_of :password }
+
+    it { should have_many :orders }
   end
 
   describe "roles" do
