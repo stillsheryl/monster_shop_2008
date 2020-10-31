@@ -25,13 +25,21 @@ class CartController < ApplicationController
     redirect_to '/cart'
   end
 
-  def update
+  def increase_item
     item = Item.find(params[:item_id])
     if item.inventory == cart.contents[item.id.to_s]
       flash[:notice] = "There are no more items left in inventory"
     else
       cart.add_item(item.id.to_s)
     end
+    redirect_to '/cart'
+  end
+
+  def decrease_item
+    item = Item.find(params[:item_id])
+
+    cart.remove_item(item.id.to_s)
+
     redirect_to '/cart'
   end
 end
