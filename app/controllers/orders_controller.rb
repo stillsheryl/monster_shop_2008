@@ -5,7 +5,7 @@ class OrdersController <ApplicationController
   end
 
   def index
-    
+    @orders = Order.select(params[:user_id]).all
   end
 
   def show
