@@ -24,6 +24,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+
+  end
+
+  def update
+    if user_params.to_h.values.any?('')
+      flash.now[:error] = "No fields can be blank."
+      render :edit
+    elsif !current_user.authenticate(user_params[:password])
+      flash.now[:error] = "Incorrect password."
+      render :edit
+    else
+      current_user.update(user_params)
+      flash[:success] = "Profile information updated."
+      redirect_to '/profile'
+    end
+  end
+
   private
   def user_params
     params.permit(:name, :address, :city, :state, :zip, :email, :password)
