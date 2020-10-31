@@ -1,5 +1,9 @@
 <%= content_tag :h1, "Welcome #{@user.name}!!!" %>
 
+<% if @user.orders.count > 0 %>
+  <ul><%= link_to "My Orders", "/profile/orders" %></ul>
+<% end %>
+
 <body class="profile-body">
   <%= content_tag :h3, "Address:" %>
   <%= content_tag :p, "#{@user.address}"%>
@@ -9,4 +13,5 @@
   <%= content_tag :h3, "#{@user.email}" %>
 
   <%= link_to "Edit Profile", "/profile/edit"%>
+  <%= link_to "Edit Password", "/profile/edit/password"%>
 </body>

@@ -37,5 +37,54 @@ describe "As a registered user" do
 
       expect(page).to have_link("Edit Profile")
     end
+
+    it "shows a link on my profile page called 'My Orders' if I have orders placed in the system." do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+      order_1 = kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: kiera.id)
+      order_2 = kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: kiera.id)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      expect(page).to have_link("My Orders")
+    end
+
+    it "does not shows a link on my profile page called 'My Orders' if I have no orders placed in the system." do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+
+      visit '/login'
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      expect(page).to_not have_link("My Orders")
+    end
+
+    it "When I click the 'My Orders' link my URI path is '/profile/orders'" do
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+      order_1 = kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: kiera.id)
+
+      visit '/login'
+
+      fill_in :email, with: kiera.email
+      fill_in :password, with: kiera.password
+
+      click_button 'Login'
+
+      visit '/profile'
+
+      click_link 'My Orders'
+
+      expect(current_path).to eq('/profile/orders')
+    end
   end
 end
