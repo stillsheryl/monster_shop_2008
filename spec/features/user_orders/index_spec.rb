@@ -33,7 +33,7 @@ describe "As a registered user" do
         expect(page).to have_content(@order_1.created_at)
         expect(page).to have_content(@order_1.updated_at)
         expect(page).to have_content(@order_1.status)
-        expect(page).to have_content(@order_1.total_items)
+        expect(page).to have_content(3)
         expect(page).to have_content(@order_1.grandtotal)
       end
 
@@ -42,7 +42,7 @@ describe "As a registered user" do
         expect(page).to have_content(@order_2.created_at)
         expect(page).to have_content(@order_2.updated_at)
         expect(page).to have_content(@order_2.status)
-        expect(page).to have_content(@order_2.total_items)
+        expect(page).to have_content(5)
         expect(page).to have_content(@order_2.grandtotal)
       end
     end
