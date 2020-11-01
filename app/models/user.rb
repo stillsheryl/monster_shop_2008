@@ -8,4 +8,9 @@ class User < ApplicationRecord
   has_many :orders
 
   enum role: %w(user merchant admin)
+
+  def email_exist?(email)
+    users = User.where.not(id: id)
+    users.distinct.pluck("email").include?(email)
+  end
 end
