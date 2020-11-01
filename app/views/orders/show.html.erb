@@ -63,3 +63,6 @@
 <section id="dateupdated">
   <p>Date Last Updated: <%= @order.updated_at%></p>
 </section>
+<section id="cancel-order">
+  <p><%= button_to "Cancel Order", "/profile/orders/#{@order.id}", method: :patch %></p>
+</section>
