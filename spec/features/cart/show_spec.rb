@@ -118,7 +118,6 @@ RSpec.describe 'Cart show' do
           expect(page).to have_link("Register")
           expect(page).to have_link("Log In")
         end
-        save_and_open_page
 
         click_on "Register"
         expect(current_path).to eq('/register')
