@@ -12,9 +12,9 @@ describe "As a registered user" do
       @order_1 = @kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: @kiera.id)
       @order_2 = @kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: @kiera.id)
 
-      @order_1.item_orders.create!(item_id: @pull_toy.id, price: 4.50, quantity: 2)
-      @order_1.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 1)
-      @order_2.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 5)
+      @item_order_1 = @order_1.item_orders.create!(item_id: @pull_toy.id, price: 4.50, quantity: 2)
+      @item_order_2 = @order_1.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 1)
+      @item_order_3 = @order_2.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 5)
     end
 
     it "I see all information about the order" do
@@ -62,6 +62,24 @@ describe "As a registered user" do
       visit "/profile/orders/#{@order_1.id}"
 
       expect(page).to have_button("Cancel Order")
+    end
+
+    it "can cancel an order" do
+      visit '/login'
+      fill_in :email, with: @kiera.email
+      fill_in :password, with: @kiera.password
+      click_button 'Login'
+
+      visit "/profile/orders/#{@order_1.id}"
+
+      click_button "Cancel Order"
+
+      expect(page).to have_content("Cancelled")
+      expect(current_path).to eq("/profile/orders/#{@order_1.id}")
+
+      expect(@item_order_1.unfulfilled?).to be_truthy
+      expect(@item_order_2.unfulfilled?).to be_truthy
+      expect(@item_order_3.unfulfilled?).to be_truthy
     end
   end
 end
