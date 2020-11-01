@@ -12,7 +12,7 @@ describe "as a visitor" do
       fill_in :zip, with: "80205"
       fill_in :email, with: "bob@marley.com"
       fill_in :password, with: "password"
-      fill_in :confirmation, with: "password"
+      fill_in :password_confirmation, with: "password"
 
       click_button "Register"
 
@@ -28,7 +28,7 @@ describe "as a visitor" do
       fill_in :zip, with: "80205"
       fill_in :email, with: "bob@marley.com"
       fill_in :password, with: "password"
-      fill_in :confirmation, with: "password"
+      fill_in :password_confirmation, with: "password"
 
       click_button "Register"
 
@@ -47,7 +47,7 @@ describe "as a visitor" do
       fill_in :zip, with: "80205"
       fill_in :email, with: "bob@marley.com"
       fill_in :password, with: "password"
-      fill_in :confirmation, with: "password"
+      fill_in :password_confirmation, with: "password"
 
       click_button "Register"
 
@@ -59,7 +59,7 @@ describe "as a visitor" do
       expect(find_field(:zip).value).to eq("80205")
       expect(find_field(:email).value).to eq(nil)
       expect(find_field(:password).value).to eq(nil)
-      expect(find_field(:confirmation).value).to eq(nil)
+      expect(find_field(:password_confirmation).value).to eq(nil)
     end
   end
 end
