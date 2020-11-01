@@ -3,7 +3,10 @@ require 'rails_helper'
 describe "As a registered User" do
   describe "when I visit my profile page" do
     before(:each) do
-      @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
+      @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+      User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'kiera@marley.com', password: 'password')
+      User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'mac@mac.com', password: 'password')
+      User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@mbob.com', password: 'password')
       @jose = { name: "Jose Lopez", address: "125 Candy Cane Ln.", city: "Miami", state: "FL", zip: 54321, email: "bob@marley.com" }
 
       visit '/login'
@@ -81,6 +84,22 @@ describe "As a registered User" do
 
         expect(current_path).to eq('/profile/edit')
         expect(page).to have_content('Incorrect password.')
+
+        visit '/profile'
+        click_link "Edit Profile"
+
+        fill_in :name, with: "Jose Lopez"
+        fill_in :address, with: "125 Candy Cane Ln."
+        fill_in :city, with: "Tampa"
+        fill_in :state, with: "FL"
+        fill_in :zip, with: 54321
+        fill_in :email, with: "kiera@marley.com"
+        fill_in :password, with: @kiera.password
+
+        click_button 'Submit'
+
+        expect(current_path).to eq('/profile/edit')
+        expect(page).to have_content("Email is already taken.")
       end
     end
   end
