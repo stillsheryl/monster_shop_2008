@@ -54,6 +54,9 @@
 <section id="grandtotal">
   <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
 </section>
+<section id="total-items">
+  <p>Total Items: <%= @order.total_items %></p>
+</section>
 <section id="datecreated">
   <p>Date Created: <%= @order.created_at%></p>
 </section>
