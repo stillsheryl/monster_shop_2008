@@ -39,4 +39,15 @@ RSpec.describe User do
       expect(admin.admin?).to be_truthy
     end
   end
+
+  describe 'Instance Methods' do
+    it "#email_exist?" do
+        user = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password')
+        User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'kiera@marley.com', password: 'password')
+        User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'qjose@marley.com', password: 'password')
+
+        expect(user.email_exist?('bob@marley.com')).to eq(false)
+        expect(user.email_exist?('kiera@marley.com')).to eq(true)
+    end
+  end
 end

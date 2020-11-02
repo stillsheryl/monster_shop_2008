@@ -35,6 +35,9 @@ class UsersController < ApplicationController
     elsif !current_user.authenticate(user_params[:password])
       flash.now[:error] = "Incorrect password."
       render :edit
+    elsif current_user.email_exist?(user_params[:email])
+      flash.now[:error] = "Email is already taken."
+      render :edit
     else
       current_user.update(user_params)
       flash[:success] = "Profile information updated."
