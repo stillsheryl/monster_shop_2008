@@ -77,9 +77,11 @@ describe "As a registered user" do
       expect(page).to have_content("Cancelled")
       expect(current_path).to eq("/profile/orders/#{@order_1.id}")
 
-      expect(@item_order_1.unfulfilled?).to be_truthy
+      @item_order_1.reload
+      @item_order_2.reload
+
+      expect(@item_order_1.status).to eq("unfulfilled")
       expect(@item_order_2.unfulfilled?).to be_truthy
-      expect(@item_order_3.unfulfilled?).to be_truthy
     end
   end
 end
