@@ -6,7 +6,10 @@
 <% end %>
 
 <section id="top-five">
-  
+<h3>Top 5 Items</h3>
+  <% Item.top_five.each do |name, quantity| %>
+    <p><%= "#{name}: #{quantity}" %></p>
+  <% end %>
 </section>
 
 <section class="grid-container">
