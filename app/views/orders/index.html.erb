@@ -6,7 +6,7 @@
     <%= content_tag :p, "Status: #{order.status}"%>
     <%= content_tag :p, "Date created: #{order.created_at}" %>
     <%= content_tag :p, "Last updated: #{order.updated_at}" %>
-    <%= content_tag :p, "Total Items in Order: #{order.item_orders.count}" %>
+    <%= content_tag :p, "Total Items in Order: #{order.total_items}" %>
     <%= content_tag :p, "Order Total: #{number_to_currency(order.grandtotal)}" %><br>
   </section>
 <% end %>
