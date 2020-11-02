@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe("New Order Page") do
+RSpec.describe "New Order Page" do
   describe "When I check out from my cart" do
     before(:each) do
       @mike = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -70,5 +70,20 @@ RSpec.describe("New Order Page") do
       expect(page).to have_field(:zip)
       expect(page).to have_button("Create Order")
     end
+    it "text" do
+
+    end
   end
 end
+
+# [ ] done
+#
+# User Story 26, Registered users can check out
+#
+# An order is created in the system, which has a status of "pending"
+# That order is associated with my user
+# I am taken to my orders page ("/profile/orders")
+# I see a flash message telling me my order was created
+# I see my new order listed on my profile orders page
+# My cart is now empty
+#
