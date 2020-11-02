@@ -83,32 +83,41 @@ RSpec.describe "Items Index Page" do
       @leash = @dog_shop.items.create!(name: "Leash", description: "Walk that dog!", price: 15, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 41)
       @octopus = @dog_shop.items.create!(name: "Plush Octopus Toy", description: "Your dog will love this thing", price: 32, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 12)
 
-      # @user = create(:user)
+      @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
 
-      @order_1 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 23455, user_id: @user.id)
-      @order_2 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 80203, user_id: @user.id)
+      visit '/login'
+
+      fill_in :email, with: @kiera.email
+      fill_in :password, with: @kiera.password
+
+      @order_1 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 23455, user_id: @kiera.id)
+      @order_2 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 80203, user_id: @kiera.id)
 
       ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @dog_bone.id, quantity: 5)
       ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @pull_toy.id, quantity: 1)
       ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @tire.id, quantity: 4)
       ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @spring.id, quantity: 3)
       ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @leash.id, quantity: 2)
-      ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @octopus.id, quantity: 3)
+
+      ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @octopus.id, quantity: 1)
       ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @pull_toy.id, quantity: 4)
     end
+
     it "can see top 5 most popular items by quantity purchased, and quantity bought" do
 
+      visit '/items'
 
-      #   within top-five do
-      #     expect(page).
-      #   end
-      #
-      # item_order.quantity
-      #
-      # most_popular_ingredients from challenge
+        within "#top-five" do
+          expect("#{@dog_bone.name}: 5").to appear_before("#{@tire.name}: 4")
+          expect("#{@pull_toy.name}: 5").to appear_before("#{@tire.name}: 4")
+          expect("#{@tire.name}: 4").to appear_before("#{@spring.name}: 3")
+          expect("#{@spring.name}: 3").to appear_before("#{@leash.name}: 2")
+
+          expect(page).to_not have_content("#{@octopus.name}: 1")
+        end
     end
 
-    it "can see bottom 5 least items by quantity purchased, and quantity bought" do
+    xit "can see bottom 5 least items by quantity purchased, and quantity bought" do
     end
   end
 end

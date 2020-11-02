@@ -26,8 +26,6 @@ class Item <ApplicationRecord
   end
 
   # def self.top_five
-  #   binding.pry
-  #
   #   Item.joins(:item_orders)
   #       .group(:item_id)
 
