@@ -36,6 +36,7 @@ class OrdersController <ApplicationController
     order.item_orders.each do |item_order|
       item_order.update(status: "unfulfilled")
     end
+    flash[:notice] = "Your order has been cancelled."
     redirect_to "/profile/orders/#{order.id}"
   end
 
