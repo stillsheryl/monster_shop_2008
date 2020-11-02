@@ -113,5 +113,14 @@ describe Item, type: :model do
                   @seat.name => @seat.total_sold}
       expect(Item.top_five).to eq(expected)
     end
+
+    it "bottom_five" do
+      expected = {@seat.name => @seat.total_sold,
+                  @helmet.name => @helmet.total_sold,
+                  @tire.name => @tire.total_sold,
+                  @streamers.name => @streamers.total_sold,
+                  @bell.name => @bell.total_sold}
+      expect(Item.bottom_five).to eq(expected)
+    end
   end
 end

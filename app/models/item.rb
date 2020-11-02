@@ -38,4 +38,12 @@ class Item <ApplicationRecord
     item_orders.sum(:quantity)
   end
 
+  def self.bottom_five
+    Item.joins(:item_orders)
+        .where(active?: true)
+        .group('items.name')
+        .order('sum(item_orders.quantity)')
+        .limit(5)
+        .sum('item_orders.quantity')
+  end
 end
