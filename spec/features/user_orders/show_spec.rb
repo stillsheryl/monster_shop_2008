@@ -83,14 +83,32 @@ describe "As a registered user" do
       expect(@item_order_1.status).to eq("unfulfilled")
       expect(@item_order_2.unfulfilled?).to be_truthy
     end
+
+    it "shows a flash message telling me the order is now cancelled" do
+      visit '/login'
+      fill_in :email, with: @kiera.email
+      fill_in :password, with: @kiera.password
+      click_button 'Login'
+
+      visit "/profile/orders/#{@order_1.id}"
+
+      click_button "Cancel Order"
+
+      expect(page).to have_content("Your order has been cancelled.")
+    end
+
+    it "Any item quantities in the order that were previously fulfilled have their quantities returned to their respective merchant's inventory for that item." do
+      visit '/login'
+      fill_in :email, with: @kiera.email
+      fill_in :password, with: @kiera.password
+      click_button 'Login'
+
+      visit "/profile/orders/#{@order_1.id}"
+
+      click_button "Cancel Order"
+
+      expect(@pull_toy.inventory).to eq(32)
+      expect(@dog_bone.inventory).to eq(21)
+    end
   end
 end
-
-
-# When I click the cancel button for an order, the following happens:
-# - Each row in the "order items" table is given a status of "unfulfilled"
-# - The order itself is given a status of "cancelled"
-# - Any item quantities in the order that were previously fulfilled have their quantities returned to their respective merchant's inventory for that item.
-# - I am returned to my profile page
-# - I see a flash message telling me the order is now cancelled
-# - And I see that this order now has an updated status of "cancelled"
