@@ -25,18 +25,14 @@ class Item <ApplicationRecord
     item_orders.empty?
   end
 
-  # def self.top_five
-  #   Item.joins(:item_orders)
-  #       .group(:item_id)
-
-    # Artist.joins(:songs).select("artists.*, avg(length) as avg_length").group(:artist_id).order("avg_length")
-
-    # def popular_ingredients
-    #   ingredients.group(:id)
-    #                  .select('ingredients.*, count(*) as dish_count')
-    #                  .order('dish_count DESC').limit(3)
-    #   end
-  # end
+  def self.top_five
+    Item.joins(:item_orders)
+        .where(active?: true)
+        .group('items.name')
+        .order('sum(item_orders.quantity) desc')
+        .limit(5)
+        .sum('item_orders.quantity')
+  end
 
   def total_sold
     item_orders.sum(:quantity)

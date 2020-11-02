@@ -78,38 +78,40 @@ describe Item, type: :model do
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
+  end
+  describe "class methods" do
+    before(:each) do
+      @bike_shop = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
 
-    describe "class methods" do
-      before(:each) do
-        @bike_shop = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      @tire = @bike_shop.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @bell = @bike_shop.items.create!(name: "Silver Bell", description: "Let everyone know you're coming!", price: 25, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 10)
+      @kickstand = @bike_shop.items.create!(name: "Kickstand", description: "Don't fall!", price: 75, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 4)
+      @helmet = @bike_shop.items.create!(name: "Helmet", description: "Protect your head!", price: 150, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 20)
+      @streamers = @bike_shop.items.create!(name: "Streamers", description: "Everyone will see you coming!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 15)
+      @seat = @bike_shop.items.create!(name: "Seat", description: "Protect your bum!", price: 90, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 7)
 
-        @tire = @bike_shop.items.create!(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-        @bell = @bike_shop.items.create!(name: "Silver Bell", description: "Let everyone know you're coming!", price: 25, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 10)
-        @kickstand = @bike_shop.items.create!(name: "Kickstand", description: "Don't fall!", price: 75, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 4)
-        @helmet = @bike_shop.items.create!(name: "Helmet", description: "Protect your head!", price: 150, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 20)
-        @streamers = @bike_shop.items.create!(name: "streamers", description: "Everyone will see you coming!", price: 50, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 15)
-        @seat = @bike_shop.items.create!(name: "Seat", description: "Protect your bum!", price: 90, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 7)
+      @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
 
-        @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
+      @order_1 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 23455, user_id: @kiera.id)
+      @order_2 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 80203, user_id: @kiera.id)
 
-        @order_1 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 23455, user_id: @kiera.id)
-        @order_2 = Order.create!(name: "name", address: "address", city: "city", state: "state", zip: 80203, user_id: @kiera.id)
+      ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @streamers.id, quantity: 5)
+      ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @seat.id, quantity: 1)
+      ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @tire.id, quantity: 4)
+      ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @bell.id, quantity: 3)
+      ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @helmet.id, quantity: 2)
 
-        ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @streamers.id, quantity: 5)
-        ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @seat.id, quantity: 1)
-        ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @tire.id, quantity: 4)
-        ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @bell.id, quantity: 3)
-        ItemOrder.create!(order_id: @order_1.id, price: 1.0, item_id: @helmet.id, quantity: 2)
+      ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @helmet.id, quantity: 1)
+      ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @bell.id, quantity: 4)
+    end
 
-        ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @helmet.id, quantity: 1)
-        ItemOrder.create!(order_id: @order_2.id, price: 1.0, item_id: @bell.id, quantity: 4)
-      end
-
-      xit "top_five" do
-        expected = [@bell, @streamers, @tire, @helmet, @seat]
-        expect(Item.top_five).to eq(expected)
-      end
-
+    it "top_five" do
+      expected = {@bell.name => @bell.total_sold,
+                  @streamers.name => @streamers.total_sold,
+                  @tire.name => @tire.total_sold,
+                  @helmet.name => @helmet.total_sold,
+                  @seat.name => @seat.total_sold}
+      expect(Item.top_five).to eq(expected)
     end
   end
 end
