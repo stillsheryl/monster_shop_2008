@@ -12,6 +12,13 @@
   <% end %>
 </section>
 
+<section id="bottom-five">
+<h3>Bottom 5 Items</h3>
+  <% Item.bottom_five.each do |name, quantity| %>
+    <p><%= "#{name}: #{quantity}" %></p>
+  <% end %>
+</section>
+
 <section class="grid-container">
   <% @items.each do |item| %>
       <% if item.active? %>
