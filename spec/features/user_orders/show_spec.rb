@@ -106,24 +106,23 @@ describe "As a registered user" do
       item_order_2 = order_1.item_orders.create!(item_id: dog_bone.id, price: 7.00, quantity: 1)
       item_order_3 = order_2.item_orders.create!(item_id: dog_bone.id, price: 7.00, quantity: 5)
 
-      # sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1)
+      sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1, merchant_id: brian.id)
 
-      # visit '/login'
-      # fill_in :email, with: sally.email
-      # fill_in :password, with: sally.password
-      # click_button 'Login'
-      #
-      # visit "/merchant"
-      #
-      # click_button 'Fulfill'
-      # click_button 'Fulfill'
+      visit '/login'
+      fill_in :email, with: sally.email
+      fill_in :password, with: sally.password
+      click_button 'Login'
+
+      visit "/merchant/"
+      click_on(id: "item_order-#{item_order_1.id}")
+
+      visit "/merchant/"
+      click_on(id: "item_order-#{item_order_2.id}")
 
       visit "/profile/orders/#{order_1.id}"
 
-      item_order_1.update(status: "fulfilled")
-      item_order_2.update(status: "fulfilled")
-
-      expect(order_1.status).to eq("packaged")
+      order_1.reload
+      expect(order_1.status).to eq("Packaged")
     end
   end
 end
