@@ -13,7 +13,7 @@ class OrdersController <ApplicationController
   end
 
   def create
-    order = Order.create(order_params)
+    order = current_user.orders.create(order_params)
     if order.save
       cart.items.each do |item,quantity|
         order.item_orders.create({
@@ -23,11 +23,22 @@ class OrdersController <ApplicationController
           })
       end
       session.delete(:cart)
-      redirect_to "/orders/#{order.id}"
+      flash[:notice] = "Your order has been created!"
+      redirect_to "/profile/orders"
     else
       flash[:notice] = "Please complete address form to create an order."
       render :new
     end
+  end
+
+  def update
+    order = Order.find(params[:id])
+    order.update(status: "Cancelled")
+    order.item_orders.each do |item_order|
+      item_order.update(status: "unfulfilled")
+    end
+    flash[:notice] = "Your order has been cancelled."
+    redirect_to "/profile/orders/#{order.id}"
   end
 
 

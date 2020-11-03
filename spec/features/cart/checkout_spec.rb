@@ -16,6 +16,15 @@ RSpec.describe 'Cart show' do
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
       @items_in_cart = [@paper,@tire,@pencil]
+
+      @sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 0)
+
+      visit '/login'
+
+      fill_in :email, with: @sally.email
+      fill_in :password, with: @sally.password
+
+      click_button 'Login'
     end
 
     it 'Theres a link to checkout' do

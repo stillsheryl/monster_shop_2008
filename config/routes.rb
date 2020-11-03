@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  root 'home#index'
+
   get "/home", to: "home#index"
 
   get "/login", to: "sessions#new"
@@ -35,6 +37,9 @@ Rails.application.routes.draw do
   get "/cart", to: "cart#show"
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
+  patch "/cart/:item_id/increase", to: "cart#increase_item"
+  patch "/cart/:item_id/decrease", to: "cart#decrease_item"
+
 
   get "/orders/new", to: "orders#new"
   post "/orders", to: "orders#create"
@@ -47,6 +52,8 @@ Rails.application.routes.draw do
 
   get "/profile/orders", to: "orders#index"
   get "/profile/orders/:id", to: "orders#show"
+  patch "/profile/orders/:id", to: "orders#update"
+
   get "/profile/edit", to: "users#edit"
   patch "/profile/edit", to: "users#update"
   get "/profile/edit/password", to: "users#edit_password"
