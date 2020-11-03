@@ -97,15 +97,19 @@ RSpec.describe "New Order Page" do
       expect(new_order.user_id).to eq(@sally.id)
     end
     it "I see a flash message telling me that my order was created, and I see that my cart is empty" do
-      
+      visit "/cart"
+      click_on "Checkout"
+
+      fill_in :name, with: "Bob Marley"
+      fill_in :address, with: "123 Main St."
+      fill_in :city, with: "Denver"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: "80205"
+
+      click_button("Create Order")
+
+      expect(page).to have_content("Cart: 0")
+      expect(page).to have_content("Your order has been created!")
     end
   end
 end
-
-# [ ] done
-#
-# User Story 26, Registered users can check out
-#
-# I see a flash message telling me my order was created
-# My cart is now empty
-#
