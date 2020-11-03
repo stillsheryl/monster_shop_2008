@@ -1,5 +1,7 @@
 <%= content_tag :h1, "Welcome #{current_user.name}!!" %>
 
+<%= link_to "My Items", "/merchant/items" %>
+
 <%= content_tag :h3, @merchant.name %>
 <%= content_tag :p, @merchant.address %>
 <%= content_tag :p, "#{@merchant.city}, #{@merchant.state}" %>
