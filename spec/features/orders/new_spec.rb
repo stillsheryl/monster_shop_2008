@@ -70,8 +70,34 @@ RSpec.describe "New Order Page" do
       expect(page).to have_field(:zip)
       expect(page).to have_button("Create Order")
     end
-    it "text" do
+    it "creates an order in the system that is associated with my user and has a status of pending and I am taken to my orders page" do
+      visit "/cart"
+      click_on "Checkout"
 
+      fill_in :name, with: "Bob Marley"
+      fill_in :address, with: "123 Main St."
+      fill_in :city, with: "Denver"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: "80205"
+
+      click_button("Create Order")
+
+      new_order = Order.last
+
+      expect(current_path).to eq("/profile/orders")
+      within "#order-#{new_order.id}" do
+        expect(page).to have_content(new_order.id)
+        expect(page).to have_content(new_order.created_at)
+        expect(page).to have_content(new_order.updated_at)
+        expect(page).to have_content(new_order.status)
+        expect(page).to have_content(new_order.total_items)
+        expect(page).to have_content(new_order.grandtotal)
+      end
+
+      expect(new_order.user_id).to eq(@sally.id)
+    end
+    it "I see a flash message telling me that my order was created, and I see that my cart is empty" do
+      
     end
   end
 end
@@ -80,10 +106,6 @@ end
 #
 # User Story 26, Registered users can check out
 #
-# An order is created in the system, which has a status of "pending"
-# That order is associated with my user
-# I am taken to my orders page ("/profile/orders")
 # I see a flash message telling me my order was created
-# I see my new order listed on my profile orders page
 # My cart is now empty
 #
