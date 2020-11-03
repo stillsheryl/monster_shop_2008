@@ -23,26 +23,35 @@ RSpec.describe "As an Admin visiting my Admin's Merchant Index page" do
 
       within "#merchant-#{@bike_shop.id}" do
         expect(page).to have_button("Disable")
-        expect(page).to have_button("Enable")
+        expect(page).to_not have_button("Enable")
       end
 
       within "#merchant-#{@dog_shop.id}" do
         expect(page).to have_button("Disable")
-        expect(page).to have_button("Enable")
+        expect(page).to_not have_button("Enable")
       end
 
       within "#merchant-#{@fishing_shop.id}" do
         expect(page).to have_button("Disable")
-        expect(page).to have_button("Enable")
+        expect(page).to_not have_button("Enable")
       end
 
       within "#merchant-#{@cookie_shop.id}" do
         expect(page).to have_button("Disable")
-        expect(page).to have_button("Enable")
+        expect(page).to_not have_button("Enable")
       end
   end
 
   it "When I click 'disable' I'm returned to '/admin/merchants' and that merchant is now disabled" do
+
+    visit "/admin/merchants"
+
+      within "#merchant-#{@bike_shop.id}" do
+        click_link "disable"
+      end
+    expect(current_path).to eq("admin/merchants")
+
+
   end
 
   it "I see a flash message that the merchant's account is now disabled" do
