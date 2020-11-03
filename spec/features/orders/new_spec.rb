@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe("New Order Page") do
+RSpec.describe "New Order Page" do
   describe "When I check out from my cart" do
     before(:each) do
       @mike = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -69,6 +69,47 @@ RSpec.describe("New Order Page") do
       expect(page).to have_field(:state)
       expect(page).to have_field(:zip)
       expect(page).to have_button("Create Order")
+    end
+    it "creates an order in the system that is associated with my user and has a status of pending and I am taken to my orders page" do
+      visit "/cart"
+      click_on "Checkout"
+
+      fill_in :name, with: "Bob Marley"
+      fill_in :address, with: "123 Main St."
+      fill_in :city, with: "Denver"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: "80205"
+
+      click_button("Create Order")
+
+      new_order = Order.last
+
+      expect(current_path).to eq("/profile/orders")
+      within "#order-#{new_order.id}" do
+        expect(page).to have_content(new_order.id)
+        expect(page).to have_content(new_order.created_at)
+        expect(page).to have_content(new_order.updated_at)
+        expect(page).to have_content(new_order.status)
+        expect(page).to have_content(new_order.total_items)
+        expect(page).to have_content(new_order.grandtotal)
+      end
+
+      expect(new_order.user_id).to eq(@sally.id)
+    end
+    it "I see a flash message telling me that my order was created, and I see that my cart is empty" do
+      visit "/cart"
+      click_on "Checkout"
+
+      fill_in :name, with: "Bob Marley"
+      fill_in :address, with: "123 Main St."
+      fill_in :city, with: "Denver"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: "80205"
+
+      click_button("Create Order")
+
+      expect(page).to have_content("Cart: 0")
+      expect(page).to have_content("Your order has been created!")
     end
   end
 end
