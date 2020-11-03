@@ -18,7 +18,6 @@ RSpec.describe "As an Admin visiting my Admin's Merchant Index page" do
   end
 
   it "I see a 'disable' button next to any merchants not disabled" do
-    @cookie_shop.update_attribute(:active?, false)
 
     visit "/admin/merchants"
 
@@ -38,7 +37,7 @@ RSpec.describe "As an Admin visiting my Admin's Merchant Index page" do
       end
 
       within "#merchant-#{@cookie_shop.id}" do
-        expect(page).to_not have_button("Disable")
+        expect(page).to have_button("Disable")
         expect(page).to have_button("Enable")
       end
   end
