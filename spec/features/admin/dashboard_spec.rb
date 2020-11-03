@@ -16,14 +16,17 @@ describe "As an admin user" do
     @user2 = User.create!(name: 'Tim Tyrell', address: '421 Branch St.', city: 'Denver', state: 'CO', zip: 80205, email: 'you_hate@to_see_it.com', password: 'password', role: 0)
     @admin = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
 
-    @order1 = @user1.orders.create!(name: @user1.name, address: @user1.address, city: @user1.city, state: @user1.state, zip: @user1.zip)
+    @order1 = @user1.orders.create!(name: @user1.name, address: @user1.address, city: @user1.city, state: @user1.state, zip: @user1.zip, status: "shipped")
     @order1.item_orders.create!([{ item: @tire, quantity: 2, price: @tire.price }, { item: @bell, quantity: 1, price: @bell.price }, { item: @helmet, quantity: 1, price: @helmet.price }])
 
-    @order2 = @user1.orders.create!(name: @user1.name, address: @user1.address, city: @user1.city, state: @user1.state, zip: @user1.zip)
+    @order2 = @user1.orders.create!(name: @user1.name, address: @user1.address, city: @user1.city, state: @user1.state, zip: @user1.zip, status: "cancelled")
     @order2.item_orders.create!([{ item: @pull_toy, quantity: 2, price: @pull_toy.price }, { item: @dog_bone, quantity: 3, price: @dog_bone.price }, { item: @spring, quantity: 1, price: @spring.price }])
 
-    @order3 = @user2.orders.create!(name: @user2.name, address: @user2.address, city: @user2.city, state: @user2.state, zip: @user2.zip)
+    @order3 = @user2.orders.create!(name: @user2.name, address: @user2.address, city: @user2.city, state: @user2.state, zip: @user2.zip, status: "packaged")
     @order3.item_orders.create!(item: @tire, quantity: 2, price: @tire.price)
+
+    @order4 = @user2.orders.create!(name: @user2.name, address: @user2.address, city: @user2.city, state: @user2.state, zip: @user2.zip, status: "pending")
+    @order4.item_orders.create!(item: @spring, quantity: 1, price: @spring.price)
 
     visit '/login'
 
@@ -77,14 +80,13 @@ describe "As an admin user" do
 
       expect(current_path).to eq("/admin/users/#{@order3.user_id}")
     end
+    it "orders are sorted by status: packaged, pending, shipped, then cancelled" do
+      within '#all-orders' do
+        # Proper order is: @order3, @order4, @order1, @order2
+        expect("Order ID: #{@order3.id}").to appear_before("Order ID: #{@order4.id}")
+        expect("Order ID: #{@order4.id}").to appear_before("Order ID: #{@order1.id}")
+        expect("Order ID: #{@order1.id}").to appear_before("Order ID: #{@order2.id}")
+      end
+    end
   end
 end
-
-# User Story 32, Admin can see all orders
-#
-# Orders are sorted by "status" in this order:
-#
-# - packaged
-# - pending
-# - shipped
-# - cancelled
