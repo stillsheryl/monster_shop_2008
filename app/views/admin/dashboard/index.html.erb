@@ -1,1 +1,9 @@
 <%= content_tag :h1, "Welcome #{current_user.name}!" %>
+
+<%= content_tag :ul, id: 'all-orders' do %>
+  <% @orders.each do |order| %>
+    <%= content_tag :li, id: "order-#{order.id}" do %>
+      <%=content_tag :p, "User: #{link_to(order.user.name, "some path")}" %>
+    <% end %>
+  <% end %>
+<% end %>
