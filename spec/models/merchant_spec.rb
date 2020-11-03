@@ -74,5 +74,24 @@ describe Merchant, type: :model do
       expect(brian.distinct_orders).to eq([order_1, order_2])
     end
 
+    it "#quantity_per_merchant" do
+      brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+
+      pull_toy = brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      dog_bone = brian.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
+
+      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bobmarley.com', password: 'password')
+      order_1 = kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: kiera.id)
+      order_2 = kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: kiera.id)
+
+      item_order_1 = order_1.item_orders.create!(item_id: pull_toy.id, price: 4.50, quantity: 2)
+      item_order_2 = order_1.item_orders.create!(item_id: dog_bone.id, price: 7.00, quantity: 1)
+      item_order_3 = order_2.item_orders.create!(item_id: dog_bone.id, price: 7.00, quantity: 5)
+
+      sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1, merchant_id: brian.id)
+
+      expect(brian.quantity_per_merchant(order_1.id)).to eq(3)
+      expect(brian.quantity_per_merchant(order_2.id)).to eq(5)
+    end
   end
 end
