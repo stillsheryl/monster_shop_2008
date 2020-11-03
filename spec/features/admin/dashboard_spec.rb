@@ -54,11 +54,33 @@ describe "As an admin user" do
         end
       end
     end
+    it "each user name under orders is a link to the admin view of that user's profile" do
+      within "#order-#{@order1.id}" do
+        click_link(@order1.name)
+      end
+
+      expect(current_path).to eq("/admin/users/#{@order1.user_id}")
+
+      visit '/admin'
+
+      within "#order-#{@order2.id}" do
+        click_link(@order2.name)
+      end
+
+      expect(current_path).to eq("/admin/users/#{@order2.user_id}")
+
+      visit '/admin'
+
+      within "#order-#{@order3.id}" do
+        click_link(@order3.name)
+      end
+
+      expect(current_path).to eq("/admin/users/#{@order3.user_id}")
+    end
   end
 end
 
 # User Story 32, Admin can see all orders
-# - user who placed the order, which links to admin view of user profile
 #
 # Orders are sorted by "status" in this order:
 #
