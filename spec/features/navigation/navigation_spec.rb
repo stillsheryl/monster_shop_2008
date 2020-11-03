@@ -80,7 +80,8 @@ RSpec.describe 'Site Navigation' do
 
   describe 'As a Merchant' do
     it "shows same links as users plus dashboard link" do
-      kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
+      bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 80203)
+      kiera = bike_shop.users.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 1)
 
       visit '/login'
 
@@ -148,7 +149,8 @@ RSpec.describe 'Site Navigation' do
 
   describe 'As a merchant' do
     it "When I try to access any path that begins with the following, then I see a 404 error:" do
-      sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
+      bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 80203)
+      sally = bike_shop.users.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
       visit '/login'
 

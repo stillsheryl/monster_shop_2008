@@ -18,7 +18,8 @@ describe "As a visitor" do
       end
 
       it "As a merchant user, I am redirected to my merchant dashboard page" do
-        sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
+        bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 80203)
+        sally = bike_shop.users.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
         visit '/login'
 
@@ -85,7 +86,8 @@ describe "As a visitor" do
   describe "As a merchant" do
     describe "who is logged in and tries to visit the login path" do
       it "I am redirected to my profile page" do
-        sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
+        bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 80203)
+        sally = bike_shop.users.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
         visit '/login'
 
