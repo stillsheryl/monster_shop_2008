@@ -8,5 +8,6 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     @merchant.update(active?: false)
     redirect_to "/admin/merchants"
+    flash[:notice] = "#{@merchant.name} is disabled"
   end
 end

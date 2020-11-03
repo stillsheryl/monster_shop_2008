@@ -1,12 +1,3 @@
-# User Story 38, Admin disables a merchant account
-#
-# As an admin
-# When I visit the admin's merchant index page ('/admin/merchants')
-# I see a "disable" button next to any merchants who are not yet disabled
-# When I click on the "disable" button
-# I am returned to the admin's merchant index page where I see that the merchant's account is now disabled
-# And I see a flash message that the merchant's account is now disabled
-
 require 'rails_helper'
 
 RSpec.describe "As an Admin" do
@@ -60,6 +51,15 @@ RSpec.describe "As an Admin" do
     end
 
     it "I see a flash message that the merchant's account is now disabled" do
+
+      visit "/admin/merchants"
+
+      within "#merchant-#{@dog_shop.id}" do
+        click_button "Disable"
+      end
+
+      expect(current_path).to eq("/admin/merchants")
+      expect(page).to have_content("#{@dog_shop.name} is disabled")
     end
   end
 end
