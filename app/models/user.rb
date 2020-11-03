@@ -6,6 +6,7 @@ class User < ApplicationRecord
   validates :password, confirmation: true, presence: true
 
   has_many :orders
+  belongs_to :merchant, optional: true
 
   enum role: %w(user merchant admin)
 
