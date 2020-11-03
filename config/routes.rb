@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   patch "/profile/edit/password", to: "users#update_password"
   namespace :merchant do
     get "/", to: "dashboard#index"
+    patch "/", to: "dashboard#update"
   end
 
   namespace :admin do
