@@ -30,4 +30,8 @@ class Merchant <ApplicationRecord
   def distinct_orders
     orders.distinct
   end
+
+  def quantity_per_merchant(id)
+    item_orders.where("order_id = ?", id).sum(:quantity)
+  end
 end
