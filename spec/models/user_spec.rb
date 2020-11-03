@@ -15,6 +15,8 @@ RSpec.describe User do
     it { should validate_confirmation_of :password }
 
     it { should have_many :orders }
+    it {should belong_to(:merchant).optional}
+
   end
 
   describe "roles" do
