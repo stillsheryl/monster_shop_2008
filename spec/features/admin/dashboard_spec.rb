@@ -38,17 +38,17 @@ describe "As an admin user" do
     it "I see all orders in the system and each order's information" do
       within '#all-orders' do
         within "#order-#{@order1.id}" do
-          expect(page).to have_link(@order1.user_id)
+          expect(page).to have_link(@order1.name)
           expect(page).to have_content(@order1.id)
           expect(page).to have_content(@order1.created_at.to_date)
         end
         within "#order-#{@order2.id}" do
-          expect(page).to have_link(@order2.user_id)
+          expect(page).to have_link(@order2.name)
           expect(page).to have_content(@order2.id)
           expect(page).to have_content(@order2.created_at.to_date)
         end
         within "#order-#{@order3.id}" do
-          expect(page).to have_link(@order3.user_id)
+          expect(page).to have_link(@order3.name)
           expect(page).to have_content(@order3.id)
           expect(page).to have_content(@order3.created_at.to_date)
         end
