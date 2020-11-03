@@ -11,4 +11,8 @@ class Order <ApplicationRecord
   def total_items
     item_orders.sum('quantity')
   end
+
+  def all_fulfilled?
+    item_orders.all? { |item_order| item_order.status == "fulfilled" }
+  end
 end

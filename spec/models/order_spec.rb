@@ -24,14 +24,22 @@ describe Order, type: :model do
 
       @order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @item_order_1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+      @item_order_2 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
     end
     it '#grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
     it "#total_items" do
       expect(@order_1.total_items).to eq(5)
+    end
+    it "#all_fulfilled?" do
+      expect(@order_1.all_fulfilled?).to be_falsey
+
+      @item_order_1.update(status: "fulfilled")
+      @item_order_2.update(status: "fulfilled")
+
+      expect(@order_1.all_fulfilled?).to be_truthy
     end
   end
 end

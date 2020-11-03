@@ -1,6 +1,15 @@
 <%= content_tag :h1, "Welcome #{current_user.name}!!" %>
 
-<%= @merchant.name %>
-<%= @merchant.address %>
-<%= "#{@merchant.city}, #{@merchant.state}" %>
-<%= @merchant.zip %>
+<%= link_to "My Items", "/merchant/items" %>
+
+<%= content_tag :h3, @merchant.name %>
+<%= content_tag :p, @merchant.address %>
+<%= content_tag :p, "#{@merchant.city}, #{@merchant.state}" %>
+<%= content_tag :p, @merchant.zip %>
+
+<ul>
+  <% @merchant.item_orders.each do |item_order| %>
+  <li><%= content_tag :p, item_order.item.name %></li>
+  <%= button_to "Fulfill", "/merchant/", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
+  <% end %>
+</ul>
