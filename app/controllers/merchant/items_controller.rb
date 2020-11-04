@@ -10,7 +10,7 @@ class Merchant::ItemsController < ApplicationController
 
   def create
     merchant = current_user.merchant
-    merchant.items.create(item_params)
+    merchant.items.create!(item_params)
     flash[:mesage] = "Your new item has been saved and is now active and available for sale."
     redirect_to '/merchant/items'
   end
@@ -34,6 +34,10 @@ class Merchant::ItemsController < ApplicationController
     end
 
     def item_params
-      params.permit(:name,:description,:image,:price,:inventory)
+      if params[:image] != ""
+        params.permit(:name,:description,:image,:price,:inventory)
+      else
+        params.permit(:name,:description,:price,:inventory)
+      end
     end
 end

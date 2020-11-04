@@ -6,7 +6,11 @@
   <% @items.each do |item| %>
     <section class = "grid-item" id= 'item-<%=item.id%>'>
       <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
-      <img src= <%= item.image %>>
+        <% if item.image == nil %>
+          <img id="image" src="https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg" >
+        <% else %>
+          <img id="image" src= <%= item.image %>>
+        <% end %>
       <p> <%= item.description %> </p>
       <p>Price: <%=number_to_currency(item.price) %> </p>
       <p>Inventory: <%= item.inventory %> </p>
