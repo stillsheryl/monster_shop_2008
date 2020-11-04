@@ -46,5 +46,15 @@ RSpec.describe 'merchant index page', type: :feature do
         expect(page).to have_content("#{@bike_shop.grandtotal_by_merchant(@order_1.id)}")
       end
     end
+
+    it 'I see a link to view my own items when I click that link my URI route should be "/merchant/items"' do
+      visit '/merchant'
+
+      expect(page).to have_link("My Items")
+
+      click_link "My Items"
+
+      expect(current_path).to eq("/merchant/items")
+    end
   end
 end
