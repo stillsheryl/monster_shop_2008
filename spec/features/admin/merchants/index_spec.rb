@@ -93,5 +93,64 @@ RSpec.describe "As an Admin" do
       visit "/items/#{@spring.id}"
       expect(page).to have_content("Active")
     end
+
+    it "I see an 'Enable' button next to any disabled merchants" do
+
+      @bike_shop.update_attribute(:active?, false)
+      @fishing_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+        within "#merchant-#{@bike_shop.id}" do
+          expect(page).to_not have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+
+        within "#merchant-#{@dog_shop.id}" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+
+        within "#merchant-#{@fishing_shop.id}" do
+          expect(page).to_not have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+
+        within "#merchant-#{@cookie_shop.id}" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+    end
+
+    it "When I click 'Enable' I'm returned to '/admin/merchants' and that merchant is now enabled" do
+
+      @bike_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+      within "#merchant-#{@bike_shop.id}" do
+        click_button "Enable"
+      end
+
+      expect(current_path).to eq("/admin/merchants")
+
+        within "#merchant-#{@bike_shop.id}" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+    end
+
+    it "I see a flash message that the merchant's account is now enabled" do
+      @bike_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+        within "#merchant-#{@bike_shop.id}" do
+          click_button "Enable"
+        end
+
+      expect(current_path).to eq("/admin/merchants")
+      expect(page).to have_content("#{@bike_shop.name} is enabled")
+    end
   end
 end
