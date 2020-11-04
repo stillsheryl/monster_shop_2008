@@ -11,6 +11,7 @@ class Merchant::ItemsController < ApplicationController
   def create
     merchant = current_user.merchant
     merchant.items.create(item_params)
+    flash[:mesage] = "Your new item has been saved and is now active and available for sale."
     redirect_to '/merchant/items'
   end
 
