@@ -49,11 +49,11 @@ RSpec.describe 'As a merchant employee', type: :feature do
     end
 
     it "shows a button to deactivate the item next to each item that is active, and when I click on the 'deactivate' button I am returned to my items page" do
-      visit 'merchant/items'
+      visit '/merchant/items'
 
       find("#deactivate-#{@pull_toy.id}").click
 
-      expect(current_path).to eq('merchant/items')
+      expect(current_path).to eq('/merchant/items')
 
       within("#item-#{@pull_toy.id}") do
         expect(page).to have_content("Status: Disabled")
@@ -61,7 +61,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
     end
 
     it "shows a flash message indicating this item is no longer for sale and I see the item is now inactive" do
-      
+
     end
   end
 end
