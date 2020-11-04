@@ -9,6 +9,7 @@ class Merchant::ItemsController < ApplicationController
     merchant = current_user.merchant
     item = merchant.items.find(params[:item_id])
     item.update(active?: false)
+    flash[:mesage] = "Your item is now inactive and no longer for sale."
     redirect_to '/merchant/items'
   end
 

@@ -12,7 +12,7 @@
         <p>Status: Active </p>
         <p><%= button_to "Deactivate", "/merchant/items/", method: :patch, id: "deactivate-#{item.id}", params: {item_id: item.id} %></p>
       <% else %>
-        <p>Status: Disabled </p>
+        <p>Status: Inactive </p>
       <% end %>
     </section>
   <% end %>
