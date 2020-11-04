@@ -19,7 +19,7 @@ class Order <ApplicationRecord
     item_orders.all? { |item_order| item_order.status == "fulfilled" }
   end
 
-  # def self.status_sorted
-  #   require 'pry' ; binding.pry
-  # end
+  def self.status_sorted
+    order(:status)
+  end
 end
