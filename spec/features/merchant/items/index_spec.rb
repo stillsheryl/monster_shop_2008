@@ -27,7 +27,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
     end
 
     it "I see all of my items with their info" do
-      visit 'merchant/items'
+      visit '/merchant/items'
 
       within("#item-#{@pull_toy.id}") do
         expect(page).to have_content(@pull_toy.name)
