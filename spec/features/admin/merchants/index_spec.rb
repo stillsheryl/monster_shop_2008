@@ -139,11 +139,18 @@ RSpec.describe "As an Admin" do
           expect(page).to_not have_button("Enable")
         end
     end
+
+    it "I see a flash message that the merchant's account is now enabled" do
+      @bike_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+        within "#merchant-#{@bike_shop.id}" do
+          click_button "Enable"
+        end
+
+      expect(current_path).to eq("/admin/merchants")
+      expect(page).to have_content("#{@bike_shop.name} is enabled")
+    end
   end
 end
-
-# User Story 40, Admin enables a merchant account
-
-# When I click on the "enable" button
-# I am returned to the admin's merchant index page where I see that the merchant's account is now enabled
-# And I see a flash message that the merchant's account is now enabled
