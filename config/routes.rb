@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     patch "/", to: "dashboard#update"
     get "/items", to: "items#index"
     get "/orders/:id", to: "orders#show"
+    patch "/items/:id", to: "items#deactivate"
   end
 
   namespace :admin do
