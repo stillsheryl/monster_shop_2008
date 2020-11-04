@@ -7,6 +7,8 @@
       <%= content_tag :p do %>
         <%= "Order ID: #{order.id}" %>
         <%= content_tag :br %>
+        <%= "Status: #{order.status}" %>
+        <%= content_tag :br %>
         <%= "Created On: #{order.created_at.to_date}" %>
         <%= content_tag :br %>
         <%= "Users: " %><%= link_to order.name, "admin/users/#{order.user_id}" %>
