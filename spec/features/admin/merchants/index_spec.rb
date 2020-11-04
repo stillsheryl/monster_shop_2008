@@ -161,5 +161,28 @@ RSpec.describe "As an Admin" do
       expect(current_path).to eq("/admin/merchants")
       expect(page).to have_content("#{@bike_shop.name} is enabled")
     end
+
+#     User Story 37, Admin can see a merchant's dashboard
+#
+# As an admin user
+# When I visit the merchant index page ("/merchants")
+# And I click on a merchant's name,
+# Then my URI route should be ("/admin/merchants/6")
+# Then I see everything that merchant would see
+    it "And I click on a merchant's name, then my URI route should be (/admin/merchants/6), then I see everything that merchant would see" do
+      visit "/merchants"
+
+      click_link "#{@bike_shop.name}"
+
+      expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
+
+
+      expect(page).to have_content("Number of Items: #{@bike_shop.item_count}")
+
+      expect(page).to have_link("All #{@bike_shop.name} Items")
+      click_on "All #{@bike_shop.name} Items"
+      expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}/items")
+
+    end
   end
 end
