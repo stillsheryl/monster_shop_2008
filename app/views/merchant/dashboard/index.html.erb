@@ -7,9 +7,13 @@
 <%= content_tag :p, "#{@merchant.city}, #{@merchant.state}" %>
 <%= content_tag :p, @merchant.zip %>
 
-<ul>
-  <% @merchant.item_orders.each do |item_order| %>
-  <li><%= content_tag :p, item_order.item.name %></li>
-  <%= button_to "Fulfill", "/merchant/", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
+<section id="pending-orders">
+  <%= content_tag :h3, "Pending Orders" %>
+
+  <% @merchant.distinct_orders.each do |order| %>
+    <%= link_to "Order Number #{order.id}", "/merchant/orders/#{order.id}" %>
+    <%= content_tag :p, "Created: #{order.created_at}" %>
+    <%= content_tag :p, "Total items in order: #{@merchant.quantity_per_merchant(order)}" %>
+    <%= content_tag :p, "Order total: #{@merchant.grandtotal_by_merchant(order.id)}" %><br>
   <% end %>
-</ul>
+</section>
