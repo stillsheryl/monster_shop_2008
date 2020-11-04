@@ -60,16 +60,16 @@ describe Order, type: :model do
       expect(@order_1.all_fulfilled?).to be_truthy
     end
   end
-  # describe "class methods" do
-  #   xit "::status_sorted" do
-  #     user1 = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
-  #     order1 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "shipped")
-  #     order2 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "cancelled")
-  #     order3 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "packaged")
-  #     order4 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "pending")
-  #     expected = [order3, order4, order1, order2]
-  #
-  #     expect(Order.status_sorted).to eq(expected)
-  #   end
-  # end
+  describe "class methods" do
+    it "::status_sorted" do
+      user1 = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
+      order1 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "Shipped")
+      order2 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "Cancelled")
+      order3 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "Packaged")
+      order4 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: "Pending")
+      expected = [order3, order4, order1, order2]
+
+      expect(Order.status_sorted).to eq(expected)
+    end
+  end
 end
