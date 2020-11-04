@@ -12,6 +12,10 @@
         <%= "Created On: #{order.created_at.to_date}" %>
         <%= content_tag :br %>
         <%= "Users: " %><%= link_to order.name, "admin/users/#{order.user_id}" %>
+        <% if order.status == "Packaged" %>
+          <%= content_tag :br %>
+          <%= button_to 'Ship', "/admin/orders/#{order.id}", method: :patch %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
