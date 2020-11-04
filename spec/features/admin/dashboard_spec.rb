@@ -91,5 +91,59 @@ describe "As an admin user" do
         expect("Order ID: #{@order1.id}").to appear_before("Order ID: #{@order2.id}")
       end
     end
+    it "I can ship orders with a status of 'packaged'" do
+      within "#order-#{@order1.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order2.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order4.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order3.id}" do
+        expect(page).to have_content("Packaged")
+        click_button('Ship')
+      end
+      within "#order-#{@order3.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to have_content("Shipped")
+        expect(page).to_not have_button('Ship')
+      end
+    end
+    it "after I have shipped an order, the user can no longer cancel it" do
+      # As admin
+      within "#order-#{@order3.id}" do
+        expect(page).to have_content("Packaged")
+        click_button('Ship')
+      end
+
+      click_link 'Logout'
+
+      visit '/login'
+
+      fill_in :email, with: @user2.email
+      fill_in :password, with: @user2.password
+
+      click_button 'Login'
+
+      # As user2
+
+      visit "/profile/orders/#{@order3.id}"
+
+      expect(page).to_not have_css('#cancel-order')
+    end
   end
 end
+#
+# User Story 33, Admin can "ship" an order
+#
+# As an admin user X
+# When I log into my dashboard, "/admin" X
+# Then I see any "packaged" orders ready to ship. X
+# Next to each order I see a button to "ship" the order. X
+# When I click that button for an order, the status of that order changes to "shipped" X
+# And the user can no longer "cancel" the order. X
