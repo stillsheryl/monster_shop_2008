@@ -91,5 +91,54 @@ describe "As an admin user" do
         expect("Order ID: #{@order1.id}").to appear_before("Order ID: #{@order2.id}")
       end
     end
+    it "I can ship orders with a status of 'packaged'" do
+      within "#order-#{@order1.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order2.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order4.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to_not have_button('Ship')
+      end
+      within "#order-#{@order3.id}" do
+        expect(page).to have_content("Packaged")
+        click_button('Ship')
+      end
+
+      expect(current_path).to eq("/admin")
+      expect(page).to have_content("Order #{@order3.id} has been shipped successfully.")
+
+      within "#order-#{@order3.id}" do
+        expect(page).to_not have_content("Packaged")
+        expect(page).to have_content("Shipped")
+        expect(page).to_not have_button('Ship')
+      end
+    end
+    it "after I have shipped an order, the user can no longer cancel it" do
+      # As admin
+      within "#order-#{@order3.id}" do
+        expect(page).to have_content("Packaged")
+        click_button('Ship')
+      end
+
+      click_link 'Logout'
+
+      visit '/login'
+
+      fill_in :email, with: @user2.email
+      fill_in :password, with: @user2.password
+
+      click_button 'Login'
+
+      # As user2
+
+      visit "/profile/orders/#{@order3.id}"
+
+      expect(page).to_not have_css('#cancel-order')
+    end
   end
 end

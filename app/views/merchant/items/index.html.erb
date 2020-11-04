@@ -1,0 +1,23 @@
+<%= content_tag :h1, "All Items" %>
+
+<section class="grid-container">
+  <% @items.each do |item| %>
+    <section class = "grid-item" id= 'item-<%=item.id%>'>
+      <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
+      <img src= <%= item.image %>>
+      <p> <%= item.description %> </p>
+      <p>Price: <%=number_to_currency(item.price) %> </p>
+      <p>Inventory: <%= item.inventory %> </p>
+      <% if item.active? %>
+        <p>Status: Active </p>
+        <p><%= button_to "Deactivate", "/merchant/items/", method: :patch, id: "deactivate-#{item.id}", params: {item_id: item.id} %></p>
+      <% else %>
+        <p>Status: Inactive </p>
+        <p><%= button_to "Activate", "/merchant/items/", method: :patch, id: "activate-#{item.id}", params: {item_id: item.id} %></p>
+      <% end %>
+      <% if item.no_orders? %>
+        <p><%= button_to "Delete", "/merchant/items/", method: :delete, id: "delete-#{item.id}", params: {item_id: item.id} %></p>
+      <% end %>
+    </section>
+  <% end %>
+</section>
