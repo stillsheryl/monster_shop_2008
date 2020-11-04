@@ -142,12 +142,3 @@ describe "As an admin user" do
     end
   end
 end
-#
-# User Story 33, Admin can "ship" an order
-#
-# As an admin user X
-# When I log into my dashboard, "/admin" X
-# Then I see any "packaged" orders ready to ship. X
-# Next to each order I see a button to "ship" the order. X
-# When I click that button for an order, the status of that order changes to "shipped" X
-# And the user can no longer "cancel" the order. X
