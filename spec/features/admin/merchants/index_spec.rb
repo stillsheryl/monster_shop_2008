@@ -93,5 +93,42 @@ RSpec.describe "As an Admin" do
       visit "/items/#{@spring.id}"
       expect(page).to have_content("Active")
     end
+
+    it "I see an 'Enable' button next to any disabled merchants" do
+
+      @bike_shop.update_attribute(:active?, false)
+      @fishing_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+        within "#merchant-#{@bike_shop.id}" do
+          expect(page).to_not have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+
+        within "#merchant-#{@dog_shop.id}" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+
+        within "#merchant-#{@fishing_shop.id}" do
+          expect(page).to_not have_button("Disable")
+          expect(page).to have_button("Enable")
+        end
+
+        within "#merchant-#{@cookie_shop.id}" do
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+    end
   end
 end
+
+# User Story 40, Admin enables a merchant account
+#
+# As an admin
+# When I visit the merchant index page
+# I see an "enable" button next to any merchants whose accounts are disabled
+# When I click on the "enable" button
+# I am returned to the admin's merchant index page where I see that the merchant's account is now enabled
+# And I see a flash message that the merchant's account is now enabled
