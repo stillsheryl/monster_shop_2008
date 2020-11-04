@@ -34,4 +34,8 @@ class Merchant <ApplicationRecord
   def quantity_per_merchant(id)
     item_orders.where("order_id = ?", id).sum(:quantity)
   end
+
+  def grandtotal_by_merchant(id)
+    item_orders.where("order_id = ?", id).sum("item_orders.price * quantity")
+  end
 end
