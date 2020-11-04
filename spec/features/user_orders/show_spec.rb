@@ -113,10 +113,10 @@ describe "As a registered user" do
       fill_in :password, with: sally.password
       click_button 'Login'
 
-      visit "/merchant/"
+      visit "/merchant/orders/#{order_1.id}"
       click_on(id: "item_order-#{item_order_1.id}")
 
-      visit "/merchant/"
+      visit "/merchant/orders/#{order_1.id}"
 
       click_on(id: "item_order-#{item_order_2.id}")
       visit "/profile/orders/#{order_1.id}"
