@@ -5,7 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+ItemOrder.destroy_all
+Order.destroy_all
 User.destroy_all
 Merchant.destroy_all
 Item.destroy_all
@@ -38,3 +39,19 @@ kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver
 sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1)
 
 bob = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
+
+tim = User.create!(name: 'Tim Tyrell', address: '421 Branch St.', city: 'Denver', state: 'CO', zip: 80205, email: 'you_hate@to_see_it.com', password: 'password', role: 0)
+
+# orders
+
+order1 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip, status: "Packaged")
+order1.item_orders.create!([{ item: tire, quantity: 2, price: tire.price }, { item: bell, quantity: 1, price: bell.price }, { item: helmet, quantity: 1, price: helmet.price }])
+
+order2 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip, status: "Shipped")
+order2.item_orders.create!([{ item: pull_toy, quantity: 2, price: pull_toy.price }, { item: dog_bone, quantity: 3, price: dog_bone.price }, { item: spring, quantity: 1, price: spring.price }])
+
+order3 = tim.orders.create!(name: tim.name, address: tim.address, city: tim.city, state: tim.state, zip: tim.zip, status: "Cancelled")
+order3.item_orders.create!(item: tire, quantity: 2, price: tire.price)
+
+order4 = tim.orders.create!(name: tim.name, address: tim.address, city: tim.city, state: tim.state, zip: tim.zip)
+order4.item_orders.create!(item: spring, quantity: 1, price: spring.price)

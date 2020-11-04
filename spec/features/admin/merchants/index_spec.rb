@@ -15,6 +15,15 @@ RSpec.describe "As an Admin" do
       @spring = @dog_shop.items.create(name: "Spring Toy", description: "Best thing to chase", price: 7, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 53)
       @leash = @dog_shop.items.create(name: "Leash", description: "Walk that dog!", price: 15, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 41)
       @octopus = @dog_shop.items.create(name: "Plush Octopus Toy", description: "Your dog will love this thing", price: 32, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 12)
+
+      @admin = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
+
+      visit '/login'
+
+      fill_in :email, with: @admin.email
+      fill_in :password, with: @admin.password
+
+      click_button 'Login'
     end
 
     it "I see a 'Disable' button next to any merchants not disabled" do

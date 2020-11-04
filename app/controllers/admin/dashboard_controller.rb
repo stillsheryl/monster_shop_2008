@@ -1,15 +1,9 @@
-class Admin::DashboardController < ApplicationController
-  before_action :require_admin
-
+class Admin::DashboardController < Admin::BaseController
   def index
+    @orders = Order.status_sorted
   end
 
   def users
-
+    
   end
-
-  private
-    def require_admin
-      render file: "/public/404" unless current_admin?
-    end
 end
