@@ -12,7 +12,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       click_button 'Login'
     end
-    
+
     it 'I see a link to view my own items when I click that link my URI route should be "/merchant/items"' do
       visit '/merchant'
 
