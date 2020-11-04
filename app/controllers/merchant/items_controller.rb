@@ -6,8 +6,10 @@ class Merchant::ItemsController < ApplicationController
   end
 
   def deactivate
-    redirect_to 'merchant/items'
-
+    merchant = current_user.merchant
+    item = merchant.items.find(params[:item_id])
+    item.update(active?: false)
+    redirect_to '/merchant/items'
   end
 
   private
