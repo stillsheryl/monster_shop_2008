@@ -5,11 +5,16 @@ class Merchant::ItemsController < ApplicationController
     @items = current_user.merchant.items
   end
 
-  def deactivate
+  def update
     merchant = current_user.merchant
     item = merchant.items.find(params[:item_id])
-    item.update(active?: false)
-    flash[:mesage] = "Your item is now inactive and no longer for sale."
+    if item.active?
+      item.update(active?: false)
+      flash[:mesage] = "Your item is now inactive and no longer for sale."
+    else
+      item.update(active?: true)
+      flash[:mesage] = "Your item is now active and is now available for sale."
+    end
     redirect_to '/merchant/items'
   end
 
