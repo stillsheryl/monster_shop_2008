@@ -2,6 +2,7 @@ class Merchant <ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :item_orders, through: :items
   has_many :users, -> {where role: :merchant}
+  has_many :orders, through: :item_orders
 
   validates_presence_of :name,
                         :address,
@@ -26,4 +27,15 @@ class Merchant <ApplicationRecord
     item_orders.distinct.joins(:order).pluck(:city)
   end
 
+  def distinct_orders
+    orders.distinct
+  end
+
+  def quantity_per_merchant(id)
+    item_orders.where("order_id = ?", id).sum(:quantity)
+  end
+
+  def grandtotal_by_merchant(id)
+    item_orders.where("order_id = ?", id).sum("item_orders.price * quantity")
+  end
 end

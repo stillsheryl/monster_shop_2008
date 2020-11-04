@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'merchant index page', type: :feature do
-  describe 'As a merchant employee when I visit my merchant dashboard ("/merchant")' do
+RSpec.describe 'merchant order show page' do
+  describe 'As a merchant employee when I visit my merchant order show page (such as "/merchant/orders/15")' do
     before :each do
       @bike_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
@@ -26,25 +26,16 @@ RSpec.describe 'merchant index page', type: :feature do
       click_button 'Login'
     end
 
-    it 'I see the name and full address of the merchant I work for' do
-      visit '/merchant'
+    it "shows all items in that order from the merchant if they are not fulfilled" do
 
-      expect(page).to have_content(@bike_shop.name)
-      expect(page).to have_content(@bike_shop.address)
-      expect(page).to have_content(@bike_shop.city)
-      expect(page).to have_content(@bike_shop.state)
-      expect(page).to have_content(@bike_shop.zip)
-    end
+      visit "/merchant/orders/#{@order_1.id}"
+      click_on(id: "item_order-#{@item_order_1.id}")
 
-    it "If any users have pending orders containing items I sell, I see a list of these orders with their data" do
-      visit '/merchant'
+      visit "/merchant/orders/#{@order_1.id}"
 
-      within("#pending-orders") do
-        expect(page).to have_link("#{@order_1.id}")
-        expect(page).to have_content("#{@order_1.created_at}")
-        expect(page).to have_content("#{@bike_shop.quantity_per_merchant(@order_1)}")
-        expect(page).to have_content("#{@bike_shop.grandtotal_by_merchant(@order_1.id)}")
-      end
+      expect(page).to have_content(@order_1.id)
+      expect(page).to have_content(@dog_bone.name)
+      expect(page).to_not have_content(@pull_toy.name)
     end
   end
 end
