@@ -42,11 +42,14 @@ tim = User.create!(name: 'Tim Tyrell', address: '421 Branch St.', city: 'Denver'
 
 # orders
 
-order1 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip)
+order1 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip, status: "Packaged")
 order1.item_orders.create!([{ item: tire, quantity: 2, price: tire.price }, { item: bell, quantity: 1, price: bell.price }, { item: helmet, quantity: 1, price: helmet.price }])
 
-order2 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip)
+order2 = kiera.orders.create!(name: kiera.name, address: kiera.address, city: kiera.city, state: kiera.state, zip: kiera.zip, status: "Shipped")
 order2.item_orders.create!([{ item: pull_toy, quantity: 2, price: pull_toy.price }, { item: dog_bone, quantity: 3, price: dog_bone.price }, { item: spring, quantity: 1, price: spring.price }])
 
-order3 = tim.orders.create!(name: tim.name, address: tim.address, city: tim.city, state: tim.state, zip: tim.zip)
+order3 = tim.orders.create!(name: tim.name, address: tim.address, city: tim.city, state: tim.state, zip: tim.zip, status: "Cancelled")
 order3.item_orders.create!(item: tire, quantity: 2, price: tire.price)
+
+order4 = tim.orders.create!(name: tim.name, address: tim.address, city: tim.city, state: tim.state, zip: tim.zip)
+order4.item_orders.create!(item: spring, quantity: 1, price: spring.price)
