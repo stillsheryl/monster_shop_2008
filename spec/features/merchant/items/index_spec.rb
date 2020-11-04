@@ -47,17 +47,21 @@ RSpec.describe 'As a merchant employee', type: :feature do
         expect(page).to have_content(@dog_bone.inventory)
       end
     end
+
+    it "shows a button to deactivate the item next to each item that is active, and when I click on the 'deactivate' button I am returned to my items page" do
+      visit 'merchant/items'
+
+      find("#deactivate-#{@pull_toy.id}").click
+
+      expect(current_path).to eq('merchant/items')
+
+      within("#item-#{@pull_toy.id}") do
+        expect(page).to have_content("Status: Disabled")
+      end
+    end
+
+    it "shows a flash message indicating this item is no longer for sale and I see the item is now inactive" do
+      
+    end
   end
 end
-
-
-# User Story 42, Merchant deactivates an item
-#
-# As a merchant employee
-# When I visit my items page
-
-# I see a link or button to deactivate the item next to each item that is active
-# And I click on the "deactivate" button or link for an item
-# I am returned to my items page
-# I see a flash message indicating this item is no longer for sale
-# I see the item is now inactive
