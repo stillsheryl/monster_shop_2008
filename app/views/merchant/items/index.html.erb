@@ -1,5 +1,7 @@
 <%= content_tag :h1, "All Items" %>
 
+<%=link_to "Add a New Item", "/merchant/items/new" %>
+
 <section class="grid-container">
   <% @items.each do |item| %>
     <section class = "grid-item" id= 'item-<%=item.id%>'>
