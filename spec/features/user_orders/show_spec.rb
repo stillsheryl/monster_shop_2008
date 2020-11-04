@@ -117,8 +117,8 @@ describe "As a registered user" do
       click_on(id: "item_order-#{item_order_1.id}")
 
       visit "/merchant/"
-      click_on(id: "item_order-#{item_order_2.id}")
 
+      click_on(id: "item_order-#{item_order_2.id}")
       visit "/profile/orders/#{order_1.id}"
 
       order_1.reload
