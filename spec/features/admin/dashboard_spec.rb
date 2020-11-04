@@ -108,6 +108,10 @@ describe "As an admin user" do
         expect(page).to have_content("Packaged")
         click_button('Ship')
       end
+
+      expect(current_path).to eq("/admin")
+      expect(page).to have_content("Order #{@order3.id} has been shipped successfully.")
+
       within "#order-#{@order3.id}" do
         expect(page).to_not have_content("Packaged")
         expect(page).to have_content("Shipped")
