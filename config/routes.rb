@@ -40,7 +40,6 @@ Rails.application.routes.draw do
   patch "/cart/:item_id/increase", to: "cart#increase_item"
   patch "/cart/:item_id/decrease", to: "cart#decrease_item"
 
-
   get "/orders/new", to: "orders#new"
   post "/orders", to: "orders#create"
   get "/orders/:id", to: "orders#show"
@@ -70,5 +69,6 @@ Rails.application.routes.draw do
     get "/users", to: "dashboard#users"
     get "/merchants", to: "merchants#index"
     patch "/merchants/:merchant_id/disable", to: "merchants#disable"
+    patch "/merchants/:merchant_id/enable", to: "merchants#enable"
   end
 end
