@@ -161,5 +161,27 @@ RSpec.describe "As an Admin" do
       expect(current_path).to eq("/admin/merchants")
       expect(page).to have_content("#{@bike_shop.name} is enabled")
     end
+
+    it "I click on 'Enable' button for a specific merchant and all their items are activated" do
+      @bike_shop.update_attribute(:active?, false)
+
+      visit "/admin/merchants"
+
+        within "#merchant-#{@bike_shop.id}" do
+          click_button "Enable"
+          expect(current_path).to eq("/admin/merchants")
+          expect(page).to have_button("Disable")
+          expect(page).to_not have_button("Enable")
+        end
+
+      visit "/items/#{@bell.id}"
+      expect(page).to have_content("Active")
+
+      visit "/items/#{@kickstand.id}"
+      expect(page).to have_content("Active")
+
+      visit "/items/#{@tire.id}"
+      expect(page).to have_content("Active")
+    end
   end
 end
