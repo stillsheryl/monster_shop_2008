@@ -18,15 +18,15 @@ describe Order, type: :model do
   describe "enum" do
     it "status" do
       user1 = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@marley.com', password: 'password', role: 0)
-      order1 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 3)
-      order2 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 4)
+      order1 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 2)
+      order2 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 3)
       order3 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 0)
       order4 = user1.orders.create!(name: user1.name, address: user1.address, city: user1.city, state: user1.state, zip: user1.zip, status: 1)
 
-      expect(order1.status).to eq('shipped')
-      expect(order2.status).to eq('cancelled')
-      expect(order3.status).to eq('packaged')
-      expect(order4.status).to eq('pending')
+      expect(order1.status).to eq('Shipped')
+      expect(order2.status).to eq('Cancelled')
+      expect(order3.status).to eq('Packaged')
+      expect(order4.status).to eq('Pending')
     end
   end
 
