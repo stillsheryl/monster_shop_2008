@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'merchant index page', type: :feature do
-  describe 'As a merchant employee when I visit my merchant dashboard ("/merchant")' do
+RSpec.describe 'As a merchant employee', type: :feature do
+  describe 'When I visit my items page' do
     before :each do
       @bike_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
@@ -26,35 +26,40 @@ RSpec.describe 'merchant index page', type: :feature do
       click_button 'Login'
     end
 
-    it 'I see the name and full address of the merchant I work for' do
-      visit '/merchant'
+    it "I see all of my items with their info" do
+      visit '/merchant/items'
 
-      expect(page).to have_content(@bike_shop.name)
-      expect(page).to have_content(@bike_shop.address)
-      expect(page).to have_content(@bike_shop.city)
-      expect(page).to have_content(@bike_shop.state)
-      expect(page).to have_content(@bike_shop.zip)
-    end
+      within("#item-#{@pull_toy.id}") do
+        expect(page).to have_content(@pull_toy.name)
+        expect(page).to have_content(@pull_toy.description)
+        expect(page).to have_content(@pull_toy.price)
+        expect(page).to have_css("img[src*='#{@pull_toy.image}']")
+        expect(page).to have_content("Status: Active")
+        expect(page).to have_content(@pull_toy.inventory)
+      end
 
-    it "If any users have pending orders containing items I sell, I see a list of these orders with their data" do
-      visit '/merchant'
-
-      within("#pending-orders") do
-        expect(page).to have_link("#{@order_1.id}")
-        expect(page).to have_content("#{@order_1.created_at}")
-        expect(page).to have_content("#{@bike_shop.quantity_per_merchant(@order_1)}")
-        expect(page).to have_content("#{@bike_shop.grandtotal_by_merchant(@order_1.id)}")
+      within("#item-#{@dog_bone.id}") do
+        expect(page).to have_content(@dog_bone.name)
+        expect(page).to have_content(@dog_bone.description)
+        expect(page).to have_content(@dog_bone.price)
+        expect(page).to have_css("img[src*='#{@dog_bone.image}']")
+        expect(page).to have_content("Status: Inactive")
+        expect(page).to have_content(@dog_bone.inventory)
       end
     end
 
-    it 'I see a link to view my own items when I click that link my URI route should be "/merchant/items"' do
-      visit '/merchant'
+    it "shows a button to deactivate the item next to each item that is active, and when I click on the 'deactivate' button I am returned to my items page and it shows a flash message indicating this item is no longer for sale and I see the item is now inactive" do
+      visit '/merchant/items'
 
-      expect(page).to have_link("My Items")
+      find("#deactivate-#{@pull_toy.id}").click
 
-      click_link "My Items"
+      expect(current_path).to eq('/merchant/items')
 
-      expect(current_path).to eq("/merchant/items")
+      within("#item-#{@pull_toy.id}") do
+        expect(page).to have_content("Status: Inactive")
+      end
+
+      expect(page).to have_content("Your item is now inactive and no longer for sale.")
     end
   end
 end
