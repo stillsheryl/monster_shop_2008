@@ -43,12 +43,12 @@ RSpec.describe 'As a merchant employee', type: :feature do
         expect(page).to have_content(@dog_bone.description)
         expect(page).to have_content(@dog_bone.price)
         expect(page).to have_css("img[src*='#{@dog_bone.image}']")
-        expect(page).to have_content("Status: Disabled")
+        expect(page).to have_content("Status: Inactive")
         expect(page).to have_content(@dog_bone.inventory)
       end
     end
 
-    it "shows a button to deactivate the item next to each item that is active, and when I click on the 'deactivate' button I am returned to my items page" do
+    it "shows a button to deactivate the item next to each item that is active, and when I click on the 'deactivate' button I am returned to my items page and it shows a flash message indicating this item is no longer for sale and I see the item is now inactive" do
       visit '/merchant/items'
 
       find("#deactivate-#{@pull_toy.id}").click
@@ -56,12 +56,10 @@ RSpec.describe 'As a merchant employee', type: :feature do
       expect(current_path).to eq('/merchant/items')
 
       within("#item-#{@pull_toy.id}") do
-        expect(page).to have_content("Status: Disabled")
+        expect(page).to have_content("Status: Inactive")
       end
-    end
 
-    it "shows a flash message indicating this item is no longer for sale and I see the item is now inactive" do
-
+      expect(page).to have_content("Your item is now inactive and no longer for sale.")
     end
   end
 end
