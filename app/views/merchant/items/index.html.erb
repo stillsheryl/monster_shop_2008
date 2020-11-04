@@ -1,0 +1,18 @@
+<%= content_tag :h1, "All Items" %>
+
+<section class="grid-container">
+  <% @items.each do |item| %>
+    <section class = "grid-item" id= 'item-<%=item.id%>'>
+      <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
+      <img src= <%= item.image %>>
+      <p> <%= item.description %> </p>
+      <p>Price: <%=number_to_currency(item.price) %> </p>
+      <p>Inventory: <%= item.inventory %> </p>
+      <% if item.active? %>
+        <p>Status: Active </p>
+      <% else %>
+        <p>Status: Disabled </p>
+      <% end %>
+    </section>
+  <% end %>
+</section>
