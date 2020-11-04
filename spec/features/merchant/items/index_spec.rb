@@ -61,5 +61,19 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       expect(page).to have_content("Your item is now inactive and no longer for sale.")
     end
+
+    it "shows a button to activate the item next to each item that is inactive, and when I click on the 'activate' button I am returned to my items page, I see a flash message indicating this item is now available for sale, and I see the item is now active" do
+      visit '/merchant/items'
+
+      find("#activate-#{@dog_bone.id}").click
+
+      expect(current_path).to eq('/merchant/items')
+
+      within("#item-#{@dog_bone.id}") do
+        expect(page).to have_content("Status: Active")
+      end
+
+      expect(page).to have_content("Your item is now active and is now available for sale.")
+    end
   end
 end
