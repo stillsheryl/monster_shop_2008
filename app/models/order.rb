@@ -5,6 +5,8 @@ class Order <ApplicationRecord
   has_many :items, through: :item_orders
   belongs_to :user
 
+  enum status: %w(Packaged Pending Shipped Cancelled)
+
   def grandtotal
     item_orders.sum('price * quantity')
   end
@@ -16,4 +18,8 @@ class Order <ApplicationRecord
   def all_fulfilled?
     item_orders.all? { |item_order| item_order.status == "fulfilled" }
   end
+
+  # def self.status_sorted
+  #   require 'pry' ; binding.pry
+  # end
 end
