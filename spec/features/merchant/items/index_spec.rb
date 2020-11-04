@@ -75,5 +75,35 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       expect(page).to have_content("Your item is now active and is now available for sale.")
     end
+
+
+    it "I see a link to add a new item, and when I submit valid information and submit the form I am taken back to my items page" do
+      visit '/merchant/items'
+
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup gor hours!'
+      image = "https://images.unsplash.com/photo-1529016011223-8ee9873aef1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=658&q=80"
+      price = 5.00
+      inventory = 18
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :image, with: image
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      expect(current_path).to eq('/merchant/items')
+save_and_open_page
+      expect(page).to have_content(name)
+      expect(page).to have_content(description)
+      expect(page).to have_css("img[src*='#{image}']")
+      expect(page).to have_content(price)
+      expect(page).to have_content(inventory)
+
+    end
   end
 end
