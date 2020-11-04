@@ -18,4 +18,8 @@ class Admin::MerchantsController < Admin::BaseController
     redirect_to "/admin/merchants"
     flash[:notice] = "#{@merchant.name} is enabled"
   end
+
+  def show
+    @merchant = Merchant.find(params[:id])
+  end
 end
