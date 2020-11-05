@@ -171,17 +171,18 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       click_button "Create Item"
 
-      expect(current_path).to eq('/merchant/items/new')
       expect(page).to have_content("Name can't be blank")
 
       fill_in :name, with: name
+      fill_in :description, with: nil
+      fill_in :price, with: price
       fill_in :inventory, with: inventory
 
       click_button "Create Item"
 
-      expect(page).to have_content("Description can't be blank and Price is not a number")
+      expect(page).to have_content("Description can't be blank")
     end
-    it "must have a price greater than 0, and an inventory count of zero or more" do
+    it "must have a price greater than 0" do
       visit '/merchant/items'
 
       click_on "Add a New Item"
@@ -195,25 +196,49 @@ RSpec.describe 'As a merchant employee', type: :feature do
       fill_in :description, with: description
       fill_in :price, with: price
       fill_in :inventory, with: inventory
-
       click_button "Create Item"
 
       expect(page).to have_content("Price must be greater than 0")
+    end
+    it "must have an inventory count of zero or more" do
+      visit '/merchant/items'
+
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup for hours!'
+      price = 2.00
+      inventory = -1
 
       fill_in :name, with: name
       fill_in :description, with: description
-      fill_in :price, with: 5.00
-      fill_in :inventory, with: -1
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
 
       click_button "Create Item"
 
       expect(page).to have_content("Inventory must be greater than -1")
     end
+    it "form is prepopulated after reloading" do
+      visit '/merchant/items'
+
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup for hours!'
+      price = 0
+      inventory = 18
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
+      click_button "Create Item"
+
+      expect(find_field('Name').value).to eq name
+      expect(find_field('Description').value).to eq description
+      expect(find_field('Price').value).to eq price.to_s
+      expect(find_field('Inventory').value).to eq inventory.to_s
+    end
   end
 end
-
-
-# - a price which must be greater than $0.00
-# - my current inventory count of this item which is 0 or greater
-
-# All fields are re-populated with my previous data
