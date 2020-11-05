@@ -12,7 +12,6 @@ class Item <ApplicationRecord
   validates_numericality_of :price, greater_than: 0
   validates_numericality_of :inventory, greater_than: -1
 
-
   def average_review
     reviews.average(:rating)
   end
@@ -32,10 +31,6 @@ class Item <ApplicationRecord
         .order('sum(item_orders.quantity) desc')
         .limit(5)
         .sum('item_orders.quantity')
-  end
-
-  def total_sold
-    item_orders.sum(:quantity)
   end
 
   def self.bottom_five
