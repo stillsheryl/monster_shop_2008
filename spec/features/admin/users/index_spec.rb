@@ -67,8 +67,6 @@ describe "Admin User Index Spec:" do
         end
 
         expect(current_path).to eq("/admin/users/#{@admin.id}")
-
-        visit admin_users_path
       end
     end
   end
