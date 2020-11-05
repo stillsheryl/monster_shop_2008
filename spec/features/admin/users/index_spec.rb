@@ -18,7 +18,7 @@ describe "Admin User Index Spec:" do
       click_button 'Login'
 
       within "nav" do
-        click_link 'Users'
+        click_link('Users')
       end
     end
 
@@ -29,35 +29,35 @@ describe "Admin User Index Spec:" do
 
       it "I see all users in the system" do
         within '#users' do
-          within "user-#{@admin.id}" do
-              expect(page).to have_content("Name: #{@admin.name}")
-              expect(page).to have_content("Permissions: #{@admin.role.upcase}")
-              expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
+          within "#user-#{@user.id}" do
+              expect(page).to have_content("Name: #{@user.name}")
+              expect(page).to have_content("Permissions: #{@user.role.upcase}")
+              expect(page).to have_content("Registration Date: #{@user.created_at.to_date}")
 
-              click_link(@admin.name)
+              click_link(@user.name)
           end
         end
 
-        expect(current_path).to eq(admin_users_path(@admin.id))
+        expect(current_path).to eq("/admin/users/#{@user.id}")
 
         visit admin_users_path
 
         within '#users' do
-          within "user-#{@admin.id}" do
-              expect(page).to have_content("Name: #{@admin.name}")
-              expect(page).to have_content("Permissions: #{@admin.role.upcase}")
-              expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
+          within "#user-#{@merchant_user.id}" do
+              expect(page).to have_content("Name: #{@merchant_user.name}")
+              expect(page).to have_content("Permissions: #{@merchant_user.role.upcase}")
+              expect(page).to have_content("Registration Date: #{@merchant_user.created_at.to_date}")
 
-              click_link(@admin.name)
+              click_link(@merchant_user.name)
           end
         end
 
-        expect(current_path).to eq(admin_users_path(@admin.id))
+        expect(current_path).to eq("/admin/users/#{@merchant_user.id}")
 
         visit admin_users_path
 
         within '#users' do
-          within "user-#{@admin.id}" do
+          within "#user-#{@admin.id}" do
               expect(page).to have_content("Name: #{@admin.name}")
               expect(page).to have_content("Permissions: #{@admin.role.upcase}")
               expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
@@ -66,9 +66,9 @@ describe "Admin User Index Spec:" do
           end
         end
 
-        expect(current_path).to eq(admin_users_path(@admin.id))
+        expect(current_path).to eq("/admin/users/#{@admin.id}")
 
-        visit admin_users_path  
+        visit admin_users_path
       end
     end
   end
