@@ -53,8 +53,6 @@ RSpec.describe 'As a merchant employee', type: :feature do
           expect(page).to have_content(@pull_toy[:inventory])
         end
 
-
-        # If I left the image field blank, I see a placeholder image for the thumbnail
         it "Checks edge cases for name cannot be blank" do
           visit "/merchant/items"
 
