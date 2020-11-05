@@ -7,6 +7,7 @@ describe "Admin User Index Spec:" do
     @merchant_user = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sally@peach.com', password: 'password', role: 1, merchant_id: merchant.id)
     @admin = User.create!(name: 'Bob Ross', address: '745 Rose St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bob@ross.com', password: 'password', role: 2)
   end
+
   describe "As an admin user" do
     before :each do
       visit '/login'
@@ -15,14 +16,59 @@ describe "Admin User Index Spec:" do
       fill_in :password, with: @admin.password
 
       click_button 'Login'
+
+      within "nav" do
+        click_link 'Users'
+      end
     end
+
     describe "When I click on the 'Users' link" do
       it "my current URL route is '/admin/users'" do
-        within "nav" do
-          click_link 'Users'
+        expect(current_path).to eq(admin_users_path)
+      end
+
+      it "I see all users in the system" do
+        within '#users' do
+          within "user-#{@admin.id}" do
+              expect(page).to have_content("Name: #{@admin.name}")
+              expect(page).to have_content("Permissions: #{@admin.role.upcase}")
+              expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
+
+              click_link(@admin.name)
+          end
         end
 
-        expect(current_path).to eq(admin_users_path)
+        expect(current_path).to eq(admin_users_path(@admin.id))
+
+        visit admin_users_path
+
+        within '#users' do
+          within "user-#{@admin.id}" do
+              expect(page).to have_content("Name: #{@admin.name}")
+              expect(page).to have_content("Permissions: #{@admin.role.upcase}")
+              expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
+
+              click_link(@admin.name)
+          end
+        end
+
+        expect(current_path).to eq(admin_users_path(@admin.id))
+
+        visit admin_users_path
+
+        within '#users' do
+          within "user-#{@admin.id}" do
+              expect(page).to have_content("Name: #{@admin.name}")
+              expect(page).to have_content("Permissions: #{@admin.role.upcase}")
+              expect(page).to have_content("Registration Date: #{@admin.created_at.to_date}")
+
+              click_link(@admin.name)
+          end
+        end
+
+        expect(current_path).to eq(admin_users_path(@admin.id))
+
+        visit admin_users_path  
       end
     end
   end
@@ -35,11 +81,13 @@ describe "Admin User Index Spec:" do
 
       click_button 'Login'
     end
+
     it "I don't see a 'Users' link in the nav bar" do
       within "nav" do
         expect(page).to_not have_link('Users')
       end
     end
+
     it "I cannot access '/admin/users'" do
       visit admin_users_path
 
@@ -56,6 +104,7 @@ describe "Admin User Index Spec:" do
 
       click_button 'Login'
     end
+
     it "I don't see a 'Users' link in the nav bar" do
       within "nav" do
         expect(page).to_not have_link('Users')
@@ -83,11 +132,3 @@ describe "As a visitor" do
     expect(page).to have_content("The page you were looking for doesn't exist.")
   end
 end
-
-# [ ] done
-#
-# User Story 53, Admin User Index Page
-# I see all users in the system
-# Each user's name is a link to a show page for that user ("/admin/users/5")
-# Next to each user's name is the date they registered
-# Next to each user's name I see what type of user they are
