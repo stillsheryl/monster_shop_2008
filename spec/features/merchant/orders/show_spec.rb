@@ -69,15 +69,15 @@ RSpec.describe 'merchant order show page' do
 
       visit "/merchant/orders/#{@order_1.id}"
 
-      expect(page).to have_link("#{@pull_toy.name}")
+      expect(page).to have_link(@pull_toy.name)
       expect(page).to have_css("img[src*='#{@pull_toy.image}']")
-      expect(page).to have_content("#{@item_order_1.price}")
-      expect(page).to have_content("#{@item_order_1.quantity}")
+      expect(page).to have_content(@item_order_1.price)
+      expect(page).to have_content(@item_order_1.quantity)
 
-      expect(page).to have_link("#{@dog_bone.name}")
+      expect(page).to have_link(@dog_bone.name)
       expect(page).to have_css("img[src*='#{@dog_bone.image}']")
-      expect(page).to have_content("#{@item_order_2.price}")
-      expect(page).to have_content("#{@item_order_2.quantity}")
+      expect(page).to have_content(@item_order_2.price)
+      expect(page).to have_content(@item_order_2.quantity)
     end
   end
 end
