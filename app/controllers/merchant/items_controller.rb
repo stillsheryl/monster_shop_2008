@@ -43,16 +43,27 @@ class Merchant::ItemsController < ApplicationController
     redirect_to '/merchant/items'
   end
 
+  def edit
+    @item = Item.find(params[:id])
+  end
+
+  def edit_update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      flash[:success] = "#{@item.name} Information Updated."
+      redirect_to "/merchant/items"
+    else
+      flash.now[:error] = @item.errors.full_messages.to_sentence
+      render :edit
+    end
+  end
+
   private
     def require_merchant
       render file: "/public/404" unless current_merchant?
     end
 
     def item_params
-      if params[:image] != ""
-        params.permit(:name,:description,:image,:price,:inventory)
-      else
-        params.permit(:name,:description,:price,:inventory)
-      end
+      params.permit(:name,:description,:image,:price,:inventory)
     end
 end
