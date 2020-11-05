@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     get "/items", to: "items#index"
     get "/orders/:id", to: "orders#show"
     patch "/items", to: "items#update"
+    get "/items/new", to: "items#new"
+    post "/items", to: "items#create"
     delete "/items", to: "items#destroy"
   end
 
@@ -72,8 +74,10 @@ Rails.application.routes.draw do
     get "/users", to: "dashboard#users"
     get "/users/:id", to: "users#show"
     get "/merchants", to: "merchants#index"
+    get "/merchants/:id", to: "merchants#show"
     patch "/merchants/:merchant_id/disable", to: "merchants#disable"
     patch "/merchants/:merchant_id/enable", to: "merchants#enable"
+    get "/merchants/:merchant_id/items", to: "items#index"
     patch "/orders/:order_id", to: "orders#update"
   end
 end

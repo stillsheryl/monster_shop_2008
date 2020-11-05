@@ -161,7 +161,7 @@ RSpec.describe "As an Admin" do
       expect(current_path).to eq("/admin/merchants")
       expect(page).to have_content("#{@bike_shop.name} is enabled")
     end
-
+    
     it "I click on 'Enable' button for a specific merchant and all their items are activated" do
       @bike_shop.update_attribute(:active?, false)
 
@@ -182,6 +182,22 @@ RSpec.describe "As an Admin" do
 
       visit "/items/#{@tire.id}"
       expect(page).to have_content("Active")
+
+    end
+    
+    it "And I click on a merchant's name, then my URI route should be (/admin/merchants/6), then I see everything that merchant would see" do
+      visit "/merchants"
+
+      click_link "#{@bike_shop.name}"
+
+      expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
+
+
+      expect(page).to have_content("Number of Items: #{@bike_shop.item_count}")
+
+      expect(page).to have_link("All #{@bike_shop.name} Items")
+      click_on "All #{@bike_shop.name} Items"
+      expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}/items")
     end
   end
 end
