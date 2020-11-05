@@ -180,38 +180,40 @@ RSpec.describe 'As a merchant employee', type: :feature do
       click_button "Create Item"
 
       expect(page).to have_content("Description can't be blank and Price is not a number")
+    end
+    it "must have a price greater than 0, and an inventory count of zero or more" do
+      visit '/merchant/items'
 
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup for hours!'
+      price = 0.00
+      inventory = 18
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Price must be greater than 0")
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :price, with: 5.00
+      fill_in :inventory, with: -1
+
+      click_button "Create Item"
+
+      expect(page).to have_content("Inventory must be greater than -1")
     end
   end
 end
 
-#
-# User Story 45, Merchant adds an item
-#
-# As a merchant employee
-# When I visit my items page
-# I see a link to add a new item
-# When I click on the link to add a new item
-# I see a form where I can add new information about an item, including:
-# - the name of the item, which cannot be blank
-# - a description for the item, which cannot be blank
-# - a thumbnail image URL string, which CAN be left blank
+
 # - a price which must be greater than $0.00
 # - my current inventory count of this item which is 0 or greater
-#
-# When I submit valid information and submit the form
-# I am taken back to my items page
-# I see a flash message indicating my new item is saved
-# I see the new item on the page, and it is enabled and available for sale
-# If I left the image field blank, I see a placeholder image for the thumbnail
-#
-# [ ] done
-#
-# User Story 46, Merchant cannot add an item if details are bad/missing
-#
-# As a merchant employee
-# When I try to add a new item
-# If any of my data is incorrect or missing (except image)
-# Then I am returned to the form
-# I see one or more flash messages indicating each error I caused
+
 # All fields are re-populated with my previous data
