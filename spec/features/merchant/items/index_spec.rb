@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe 'As a merchant employee', type: :feature do
   describe 'When I visit my items page' do
     before :each do
-      @bike_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
+      @dog_shop = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
-      @pull_toy = @bike_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
-      @dog_bone = @bike_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
+      @pull_toy = @dog_shop.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      @dog_bone = @dog_shop.items.create(name: "Dog Bone", description: "They'll love it!", price: 21, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", active?:false, inventory: 21)
+      @leash = @dog_shop.items.create(name: "Leash", description: "Walk that dog!", price: 15, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 41)
 
       @kiera = User.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, email: 'bobmarley.com', password: 'password')
       @order_1 = @kiera.orders.create!(name: 'Kiera Allen', address: '124 Main St.', city: 'Denver', state: 'CO', zip: 80205, user_id: @kiera.id)
@@ -16,7 +17,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
       @item_order_2 = @order_1.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 1)
       @item_order_3 = @order_2.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 5)
 
-      @sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1, merchant_id: @bike_shop.id)
+      @sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1, merchant_id: @dog_shop.id)
 
       visit '/login'
 
@@ -76,6 +77,25 @@ RSpec.describe 'As a merchant employee', type: :feature do
       expect(page).to have_content("Your item is now active and is now available for sale.")
     end
 
+    it "has a button to delete the item next to each item that has never been ordered. When I click it I am returned to my items page, I see a flash message indicating this item is now deleted, I no longer see this item on the page" do
+      visit '/merchant/items'
+
+      expect(page).to have_content(@leash.name)
+
+      within("#item-#{@pull_toy.id}") do
+        expect(page).to_not have_button("Delete")
+      end
+
+      find("#delete-#{@leash.id}").click
+
+      expect(current_path).to eq('/merchant/items')
+
+      within(".grid-container") do
+        expect(page).to_not have_content(@leash.name)
+      end
+
+      expect(page).to have_content("Your #{@leash.name} item has been deleted.")
+    end
 
     it "I see a link to add a new item, and when I submit valid information and submit the form I am taken back to my items page and I see the item's info, a flash message indicating my new item is saved, and the new item is enabled and available for sale" do
       visit '/merchant/items'

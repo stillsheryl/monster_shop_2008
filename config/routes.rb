@@ -66,6 +66,7 @@ Rails.application.routes.draw do
     patch "/items", to: "items#update"
     get "/items/new", to: "items#new"
     post "/items", to: "items#create"
+    delete "/items", to: "items#destroy"
   end
 
   namespace :admin do
@@ -75,5 +76,6 @@ Rails.application.routes.draw do
     get "/merchants", to: "merchants#index"
     patch "/merchants/:merchant_id/disable", to: "merchants#disable"
     patch "/merchants/:merchant_id/enable", to: "merchants#enable"
+    patch "/orders/:order_id", to: "orders#update"
   end
 end

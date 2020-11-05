@@ -28,6 +28,14 @@ class Merchant::ItemsController < ApplicationController
     redirect_to '/merchant/items'
   end
 
+  def destroy
+    merchant = current_user.merchant
+    item = merchant.items.find(params[:item_id])
+    item.destroy
+    flash[:mesage] = "Your #{item.name} item has been deleted."
+    redirect_to '/merchant/items'
+  end
+
   private
     def require_merchant
       render file: "/public/404" unless current_merchant?
