@@ -1,0 +1,15 @@
+<%= content_tag :h1, "Users Dashboard" %>
+
+<%= content_tag :ul, id: "users" do %>
+  <% @users.each do |user| %>
+    <%= content_tag :li, id: "user-#{user.id}" do %>
+      <%= "Name: " %><%= link_to user.name, admin_users_path + "/#{user.id}" %>
+      <%= content_tag :br %>
+      <%= "Permissions: " %><%= user.role.upcase %>
+      <%= content_tag :br %>
+      <%= "Registration Date: " %><%= user.created_at.to_date %>
+      <%= content_tag :br %>
+      <%= content_tag :br %>
+    <% end %>
+  <% end %>
+<% end %>
