@@ -6,13 +6,20 @@ class Merchant::ItemsController < ApplicationController
   end
 
   def new
+    merchant = current_user.merchant
+    @item = merchant.items.new(item_params)
   end
 
   def create
     merchant = current_user.merchant
-    merchant.items.create!(item_params)
-    flash[:mesage] = "Your new item has been saved and is now active and available for sale."
-    redirect_to '/merchant/items'
+    @item = merchant.items.new(item_params)
+    if @item.save
+      flash[:mesage] = "Your new item has been saved and is now active and available for sale."
+      redirect_to '/merchant/items'
+    else
+      flash.now[:errors] = @item.errors.full_messages.uniq.to_sentence
+      render :new
+    end
   end
 
   def update
