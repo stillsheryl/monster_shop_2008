@@ -150,7 +150,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
       expect(current_path).to eq('/merchant/items')
 
       within("#item-#{item_id}") do
-        expect(page.find("#image")['src']).to have_content("https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg")
+        expect(page.find("#setimage")['src']).to have_content("https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg")
       end
     end
 

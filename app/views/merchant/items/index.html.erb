@@ -1,13 +1,12 @@
 <%= content_tag :h1, "All Items" %>
 
 <%=link_to "Add a New Item", "/merchant/items/new" %>
-
 <section class="grid-container">
   <% @items.each do |item| %>
     <section class = "grid-item" id= 'item-<%=item.id%>'>
       <h2> <%=link_to item.name, "/items/#{item.id}" %> </h2>
-        <% if item.image == nil %>
-          <img id="image" src="https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg" >
+        <% if item.image == "" %>
+          <img id="setimage" src="https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg" >
         <% else %>
           <img id="image" src= <%= item.image %>>
         <% end %>
@@ -24,6 +23,7 @@
       <% if item.no_orders? %>
         <p><%= button_to "Delete", "/merchant/items/", method: :delete, id: "delete-#{item.id}", params: {item_id: item.id} %></p>
       <% end %>
+      <%=link_to "Edit #{item.name}", "/merchant/items/#{item.id}/edit" %>
     </section>
   <% end %>
 </section>

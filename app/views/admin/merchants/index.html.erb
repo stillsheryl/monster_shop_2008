@@ -6,7 +6,7 @@
 
 <% @merchants.each do |merchant| %>
   <section id= <%= "merchant-#{merchant.id}" %>>
-    <h3><%= merchant.name %></h3>
+    <h3><%=link_to merchant.name, "/admin/merchants/#{merchant.id}" %></h3>
     <p><%= "#{merchant.city}, #{merchant.state}" %></p>
 
     <% if merchant.active? == true %>
