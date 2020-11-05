@@ -40,7 +40,6 @@ RSpec.describe 'merchant order show page' do
 
       expect(page).to have_content(@order_1.id)
       expect(page).to have_content(@dog_bone.name)
-      expect(page).to_not have_content(@pull_toy.name)
     end
 
     it "shows the recipient's name and address used to create order" do
@@ -60,14 +59,25 @@ RSpec.describe 'merchant order show page' do
 
       expect(page).to_not have_content(@tire.name)
     end
+
+    it "shows each item's name (which is a link to that item's show page), image, price, and quantity user wants to purchase" do
+
+      visit "/merchant/orders/#{@order_1.id}"
+
+      click_link "#{@pull_toy.name}"
+      expect(current_path).to eq("/items/#{@pull_toy.id}")
+
+      visit "/merchant/orders/#{@order_1.id}"
+
+      expect(page).to have_link("#{@pull_toy.name}")
+      expect(page).to have_css("img[src*='#{@pull_toy.image}']")
+      expect(page).to have_content("#{@item_order_1.price}")
+      expect(page).to have_content("#{@item_order_1.quantity}")
+
+      expect(page).to have_link("#{@dog_bone.name}")
+      expect(page).to have_css("img[src*='#{@dog_bone.image}']")
+      expect(page).to have_content("#{@item_order_2.price}")
+      expect(page).to have_content("#{@item_order_2.quantity}")
+    end
   end
 end
-
-# User Story 49, Merchant sees an order show page
-
-# I do not see any items in the order being purchased from other merchants
-# For each item, I see the following information:
-# - the name of the item, which is a link to my item's show page
-# - an image of the item
-# - my price for the item
-# - the quantity the user wants to purchase
