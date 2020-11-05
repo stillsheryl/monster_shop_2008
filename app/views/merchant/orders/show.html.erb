@@ -21,25 +21,14 @@
 </section>
 
 <h3>Order Info</h3>
-  <table>
-    <tr>
-      <th>Item</th>
-      <th>Image</th>
-      <th>Price</th>
-      <th>Quantity</th>
-    </tr>
-    <tr>
-    <% @item_orders.each do |item_order| %>
-    <section id="#item-<%= item_order.item_id %>">
-      <td><p><%= link_to item_order.item.name, "/items/#{item_order.item_id}" %></p></td>
-      <td><p><%= image_tag "#{item_order.item.image}" %></p></td>
-      <td><p><%= item_order.quantity %></p></td>
-      <td><p><%= item_order.price %></p></td>
+<% @item_orders.each do |item_order| %>
+  <section id="#item-<%= item_order.item_id %>">
+  <p>Item: <%= link_to item_order.item.name, "/items/#{item_order.item_id}" %></p>
+  <p>Image: <%= image_tag "#{item_order.item.image}" %></p>
+  <p>Price: <%= number_to_currency(item_order.price) %></p>
+  <p>Quantity: <%= item_order.quantity %></p>
   <% if item_order.status != "fulfilled" %>
-    <li><%= content_tag :p, item_order.item.name %></li>
     <%= button_to "Fulfill", "/merchant/", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
   <% end %>
-    </section>
-    <% end %>
-    </tr>
-</table>
+  </section>
+<% end %>
