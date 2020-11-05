@@ -96,5 +96,62 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       expect(page).to have_content("Your #{@leash.name} item has been deleted.")
     end
+
+    it "I see a link to add a new item, and when I submit valid information and submit the form I am taken back to my items page and I see the item's info, a flash message indicating my new item is saved, and the new item is enabled and available for sale" do
+      visit '/merchant/items'
+
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup for hours!'
+      image = "https://images.unsplash.com/photo-1529016011223-8ee9873aef1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=658&q=80"
+      price = 5.00
+      inventory = 18
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :image, with: image
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      expect(current_path).to eq('/merchant/items')
+
+      expect(page).to have_content(name)
+      expect(page).to have_content(description)
+      expect(page).to have_css("img[src*='#{image}']")
+      expect(page).to have_content(price)
+      expect(page).to have_content(inventory)
+      expect(page).to have_content("Status: Active")
+
+      expect(page).to have_content("Your new item has been saved and is now active and available for sale.")
+    end
+
+    it "I see a placeholder image for the thumbnail if I left the image field blank" do
+      visit '/merchant/items'
+
+      click_on "Add a New Item"
+
+      name = "Squeaker Pup"
+      description = 'This squeak will entertain your pup for hours!'
+      price = 5.00
+      inventory = 18
+
+      fill_in :name, with: name
+      fill_in :description, with: description
+      fill_in :price, with: price
+      fill_in :inventory, with: inventory
+
+      click_button "Create Item"
+
+      item_id = Item.last.id
+
+      expect(current_path).to eq('/merchant/items')
+
+      within("#item-#{item_id}") do
+        expect(page.find("#image")['src']).to have_content("https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483097.jpg")
+      end
+    end
   end
 end
