@@ -109,7 +109,7 @@ RSpec.describe 'Site Navigation' do
 
       within 'nav' do
         expect(page).to have_link("Admin's Dashboard")
-        expect(page).to have_link("All Users")
+        expect(page).to have_link("Users")
       end
     end
   end

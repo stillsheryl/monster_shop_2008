@@ -71,6 +71,7 @@ describe "Admin User Index Spec:" do
 end
 describe "As a visitor" do
   it "I don't see a 'Users' link in the nav bar" do
+    visit '/'
     within "nav" do
       expect(page).to_not have_link('Users')
     end
