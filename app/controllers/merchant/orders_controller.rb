@@ -4,6 +4,7 @@ class Merchant::OrdersController < ApplicationController
   def show
     merchant = current_user.merchant
     @item_orders = merchant.item_orders.where("order_id = #{params[:id]}")
+    @order = Order.find(params[:id])
   end
 
   private

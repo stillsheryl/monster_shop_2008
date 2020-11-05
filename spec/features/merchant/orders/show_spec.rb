@@ -29,6 +29,7 @@ RSpec.describe 'merchant order show page' do
     it "shows all items in that order from the merchant if they are not fulfilled" do
 
       visit "/merchant/orders/#{@order_1.id}"
+
       click_on(id: "item_order-#{@item_order_1.id}")
 
       visit "/merchant/orders/#{@order_1.id}"
@@ -37,5 +38,26 @@ RSpec.describe 'merchant order show page' do
       expect(page).to have_content(@dog_bone.name)
       expect(page).to_not have_content(@pull_toy.name)
     end
+
+    it "shows the recipient's name and address used to create order" do
+
+      visit "/merchant/orders/#{@order_1.id}"
+
+      expect(page).to have_content(@kiera.name)
+      expect(page).to have_content(@kiera.address)
+      expect(page).to have_content(@kiera.city)
+      expect(page).to have_content(@kiera.state)
+      expect(page).to have_content(@kiera.zip)
+    end
   end
 end
+
+# User Story 49, Merchant sees an order show page
+
+# I only see the items in the order that are being purchased from my merchant
+# I do not see any items in the order being purchased from other merchants
+# For each item, I see the following information:
+# - the name of the item, which is a link to my item's show page
+# - an image of the item
+# - my price for the item
+# - the quantity the user wants to purchase

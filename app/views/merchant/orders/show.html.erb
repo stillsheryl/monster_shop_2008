@@ -1,10 +1,30 @@
-<%= content_tag :h1, "Order # #{params[:id]}" %>
+<%= content_tag :h1, "Order ##{params[:id]}" %>
+
+<section id="shipping-address">
+  <h3>Shipping Info</h3>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+      </tr>
+      <tr>
+        <td><p><%= @order.name %></p></td>
+        <td><p><%= @order.address %></p></td>
+        <td><p><%= @order.city %></p></td>
+        <td><p><%= @order.state %></p></td>
+        <td><p><%= @order.zip %></p></td>
+      </tr>
+    </table>
+</section>
 
 <ul>
   <% @item_orders.each do |item_order| %>
-  <% if item_order.status != "fulfilled" %>
-  <li><%= content_tag :p, item_order.item.name %></li>
-  <%= button_to "Fulfill", "/merchant/", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
-  <% end %>
+    <% if item_order.status != "fulfilled" %>
+      <li><%= content_tag :p, item_order.item.name %></li>
+      <%= button_to "Fulfill", "/merchant/", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
+    <% end %>
   <% end %>
 </ul>
