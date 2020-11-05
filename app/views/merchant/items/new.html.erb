@@ -13,10 +13,10 @@
     <%= text_field_tag :image %>
 
     <%= label_tag :price %>
-    <%= number_field_tag :price %>
+    <%= number_field_tag :price, min: 1 %>
 
     <%= label_tag :inventory %>
-    <%= number_field_tag :inventory %>
+    <%= number_field_tag :inventory, min: 0 %>
 
     <%= submit_tag 'Create Item' %>
   <% end %>
