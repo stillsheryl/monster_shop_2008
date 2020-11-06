@@ -4,14 +4,4 @@
   <ul><%= link_to "My Orders", "/profile/orders" %></ul>
 <% end %>
 
-<body class="profile-body">
-  <%= content_tag :h3, "Address:" %>
-  <%= content_tag :p, "#{@user.address}"%>
-  <%= content_tag :p, "#{@user.city}, #{@user.state}" %>
-  <%= content_tag :p, "#{@user.zip}" %>
-  <%= content_tag :h3, "Email:" %>
-  <%= content_tag :h3, "#{@user.email}" %>
-
-  <%= link_to "Edit Profile", "/profile/edit"%>
-  <%= link_to "Edit Password", "/profile/edit/password"%>
-</body>
+<%= render partial: "/partials/users/profile_body", locals: {user: @user} %>

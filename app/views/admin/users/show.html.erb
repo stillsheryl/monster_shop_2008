@@ -1,0 +1,3 @@
+<%= content_tag :h1, "Welcome #{@user.name}!!!" %>
+
+<%= render partial: "/partials/users/profile_body", locals: {user: @user} %>
