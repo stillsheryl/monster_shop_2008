@@ -51,14 +51,6 @@ describe Item, type: :model do
       @review_5 = @chain.reviews.create!(title: "Okay place :/", content: "Brian's cool and all but just an okay selection of items", rating: 3)
     end
 
-    it "total_sold" do
-      expect(@tire.total_sold).to eq(6)
-      expect(@bell.total_sold).to eq(1)
-      expect(@kickstand.total_sold).to eq(8)
-      expect(@helmet.total_sold).to eq(3)
-      expect(@seat.total_sold).to eq(6)
-    end
-
     it "calculate average review" do
       expect(@chain.average_review).to eq(3.0)
     end
@@ -78,6 +70,7 @@ describe Item, type: :model do
       expect(@chain.no_orders?).to eq(false)
     end
   end
+
   describe "class methods" do
     before(:each) do
       @bike_shop = Merchant.create!(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
@@ -105,20 +98,20 @@ describe Item, type: :model do
     end
 
     it "top_five" do
-      expected = {@bell.name => @bell.total_sold,
-                  @streamers.name => @streamers.total_sold,
-                  @tire.name => @tire.total_sold,
-                  @helmet.name => @helmet.total_sold,
-                  @seat.name => @seat.total_sold}
+      expected = {@bell.name => 7,
+                  @streamers.name => 5,
+                  @tire.name => 4,
+                  @helmet.name => 3,
+                  @seat.name => 1}
       expect(Item.top_five).to eq(expected)
     end
 
     it "bottom_five" do
-      expected = {@seat.name => @seat.total_sold,
-                  @helmet.name => @helmet.total_sold,
-                  @tire.name => @tire.total_sold,
-                  @streamers.name => @streamers.total_sold,
-                  @bell.name => @bell.total_sold}
+      expected = {@seat.name => 1,
+                  @helmet.name => 3,
+                  @tire.name => 4,
+                  @streamers.name => 5,
+                  @bell.name => 7}
       expect(Item.bottom_five).to eq(expected)
     end
   end
