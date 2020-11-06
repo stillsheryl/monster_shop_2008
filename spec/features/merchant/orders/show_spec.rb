@@ -79,5 +79,17 @@ RSpec.describe 'merchant order show page' do
       expect(page).to have_content(@item_order_2.price)
       expect(page).to have_content(@item_order_2.quantity)
     end
+
+    it "should see an indicator that the item has been fulfilled, a flash message appears telling them its updated and inventory quantity is permeninatly reduced by user quantity" do
+      visit "/merchant/orders/#{@order_1.id}"
+
+      click_on(id: "item_order-#{@item_order_1.id}")
+
+      expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
+      @item_order_1.reload
+      expect(@item_order_1.item.inventory).to eq(30)
+      expect(page).to have_content("fulfilled")
+      expect(page).to have_content("Item has been fulfilled")
+    end
   end
 end
