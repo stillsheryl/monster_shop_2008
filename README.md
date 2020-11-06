@@ -3,7 +3,7 @@
 ### Turing School Project [Background and Instructions](https://github.com/turingschool-examples/monster_shop_2005#background-and-description)
 #### Includes:
 - Setup
-- Learning goal
+- Learning goals
 - Requirements
 - User stories
 - Rubric
