@@ -17,7 +17,7 @@ RSpec.describe 'merchant order show page' do
 
       @item_order_1 = @order_1.item_orders.create!(item_id: @pull_toy.id, price: 4.50, quantity: 2)
       @item_order_2 = @order_1.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 1)
-      @item_order_3 = @order_2.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 5)
+      @item_order_3 = @order_2.item_orders.create!(item_id: @dog_bone.id, price: 7.00, quantity: 500)
       @item_order_4 = @order_1.item_orders.create!(item_id: @tire.id, price: 8.00, quantity: 4)
 
       @sally = User.create!(name: 'Sally Peach', address: '432 Grove St.', city: 'Denver', state: 'CO', zip: 80205, email: 'sallypeach.com', password: 'password', role: 1, merchant_id: @dog_shop.id)
@@ -78,6 +78,24 @@ RSpec.describe 'merchant order show page' do
       expect(page).to have_css("img[src*='#{@dog_bone.image}']")
       expect(page).to have_content(@item_order_2.price)
       expect(page).to have_content(@item_order_2.quantity)
+    end
+
+    it "should see an indicator that the item has been fulfilled, a flash message appears telling them its updated and inventory quantity is permeninatly reduced by user quantity" do
+      visit "/merchant/orders/#{@order_1.id}"
+
+      click_on(id: "item_order-#{@item_order_1.id}")
+
+      expect(current_path).to eq("/merchant/orders/#{@order_1.id}")
+      @item_order_1.reload
+      expect(@item_order_1.item.inventory).to eq(30)
+      expect(page).to have_content("fulfilled")
+      expect(page).to have_content("Item has been fulfilled")
+    end
+
+    it "should not be able to fulfill an item in inventory is less than quantity" do
+      visit "/merchant/orders/#{@order_2.id}"
+
+      expect(page).to have_content("Cannot fulfill this item")
     end
   end
 end

@@ -5,16 +5,6 @@ class Merchant::DashboardController < ApplicationController
     @merchant = current_user.merchant
   end
 
-  def update
-    merchant = current_user.merchant
-    item_order = merchant.item_orders.find(params[:item_order_id])
-    order = item_order.order
-    item_order.update(status: "fulfilled")
-    if order.all_fulfilled?
-      order.update(status: "Packaged")
-    end
-  end
-
   private
     def require_merchant
       render file: "/public/404" unless current_merchant?
