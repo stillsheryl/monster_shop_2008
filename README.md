@@ -8,7 +8,7 @@ Includes:
 - User stories
 - Rubric
 
-## Group Project Table of Contents
+## Table of Contents
 - [Introduction](#introduction)
 - [Demo](#demo)
 - [Features](#features)
