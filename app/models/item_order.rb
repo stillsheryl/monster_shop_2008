@@ -9,4 +9,8 @@ class ItemOrder <ApplicationRecord
   def subtotal
     price * quantity
   end
+
+  def subtract
+    item.inventory - quantity
+  end
 end
