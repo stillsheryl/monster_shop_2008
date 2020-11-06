@@ -1,17 +1,14 @@
 # Monster Shop
 ## BE Mod 2 Weeks 4 & 5 Group Project
-### Turing School Project [Background and Instructions](https://github.com/turingschool-examples/monster_shop_2005#background-and-description)
-##### Includes:
+### [Background and Instructions](https://github.com/turingschool-examples/monster_shop_2005#background-and-description)<br>
+Includes:
 - Setup
 - Learning goals
 - Requirements
 - User stories
 - Rubric
 
-## Group Project
-
-### Table of Contents
-
+## Group Project Table of Contents
 - [Introduction](#introduction)
 - [Demo](#demo)
 - [Features](#features)
