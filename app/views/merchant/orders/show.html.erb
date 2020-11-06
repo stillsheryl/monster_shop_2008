@@ -29,8 +29,10 @@
     <p>Quantity: <%= item_order.quantity %></p>
     <% if item_order.status != "fulfilled" && (item_order.item.inventory >= item_order.quantity)  %>
         <%= button_to "Fulfill", "/merchant/orders/#{@order.id}", method: :patch, id: "item_order-#{item_order.id}", params: {item_order_id: item_order.id} %>
-      <% else %>
-        <%= content_tag :h4, item_order.status, id: "status" %>
+    <% elsif item_order.status == "fulfilled"%>
+      <%= content_tag :h4, item_order.status, id: "status" %>
+    <% else %>
+      <%= content_tag :h4, "Cannot fulfill this item" %>
     <% end %>
   </section>
 <% end %>
