@@ -1,5 +1,5 @@
 # Monster Shop
-## BE Mod 2 Weeks 4 & 5 Group Project
+## BE Mod 2: Weeks 4 & 5 Group Project
 ### [Background and Instructions](https://github.com/turingschool-examples/monster_shop_2005#background-and-description)<br>
 Includes:
 - Setup
